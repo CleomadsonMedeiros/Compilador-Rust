@@ -8,15 +8,16 @@
 
  Apresenta os operadores aritméticos de **soma** (+), **multiplicação** (*), **subtração** (-), **divisão** (/) e **módulo** (%). Também apresenta o **operador** = para atribuições. Possui ainda os operadores unários **negação aritmética** (-), **negação lógica** (!). Bem como, os operadores relacionais de comparação **igualdade** (==), **não igualdade** (!=), **menor que** (<), **maior que** (>), **menor ou igual que** (<=) e **maior ou igual que** (>=); e os operadores lógicos **E** (&&) e **OU** (||). Estes possuem a seguinte tabela de precedência em ordem de força decrescente
 
-| Operador | Associativade|
-|:--------:|:-----------:|
-|     Unário - * !    |  |
-|     * / %    | Esquerda para direita |
-|     + -    | Esquerda para direita |
-|     == != < > <= >=    | Requer parênteses |
-|     &&    | Esquerda para direita |
-|     ||    | Esquerda para direita |
-|     = += -= *= /= %=    | Direita para esquerda |
+| Operador                | Associatividade        |
+|:-----------------------:|:----------------------:|
+| Unário `- * !`          |                        |
+| `* / %`                 | Esquerda para direita  |
+| `+ -`                   | Esquerda para direita  |
+| `== != < > <= >=`       | Requer parênteses      |
+| `&&`                    | Esquerda para direita  |
+| `\|\|`                    | Esquerda para direita  |
+| `= += -= *= /= %=`      | Direita para esquerda  |
+
 
 #### 3. Delimitadores
 
