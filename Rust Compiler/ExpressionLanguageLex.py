@@ -13,6 +13,8 @@ reservadas = {
     'else': 'ELSE',
     'for': 'FOR',
     'in': 'IN',
+    'i32': 'I32',
+    'f64': 'F64'
 }
 
 # Tokens
@@ -109,3 +111,8 @@ def t_error(t):
     t.lexer.skip(1)
 
 lexer = lex.lex()
+lexer.input("if else")
+
+print('{:10s}{:10s}{:10s}{:10s}'.format("Token", "Lexema", "Linha", "Coluna"))
+for tok in lexer:
+  print('{:10s}{:10s}{:10s}{:10s}'.format(tok.type, tok.value, str(tok.lineno), str(tok.lexpos)))
