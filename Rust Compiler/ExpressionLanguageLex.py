@@ -99,8 +99,9 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
+# Comentários com // ou /* */
 def t_COMMENT(t):
-    r'//.*'
+    r'//.*|/\*(.|\n)*?\*/'
     pass # Faz nada
 
 def t_error(t):
