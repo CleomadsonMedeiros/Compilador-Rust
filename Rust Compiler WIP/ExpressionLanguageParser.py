@@ -1,6 +1,23 @@
 import ply.yacc as yacc
 from ExpressionLanguageLex import tokens, data
 
+"""
+Gramática
+
+Inicio -> exp
+exp -> T exp'
+exp' -> + T exp'
+      | - T exp'
+      | ε
+T -> F T'
+T' -> * F T'
+    | / F T'
+    | ε
+F -> ( exp )
+    | id
+    | num
+"""
+
 def p_inicio(p):
     'inicio : expressao'
     print("Análise sintática concluída.")
