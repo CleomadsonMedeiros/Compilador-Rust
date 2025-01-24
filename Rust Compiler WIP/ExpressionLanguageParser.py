@@ -20,37 +20,54 @@ F -> ( exp )
 
 def p_inicio(p):
     'inicio : expressao'
-    print("Análise sintática concluída.")
+    p[0] = p[1]
+    print(f"Resultado do cálculo: {p[0]}")
 
 def p_expressao(p):
     '''expressao : termo expressao_linha'''
-    pass
+    p[0] = p[1] + p[2]
 
 def p_expressao_linha(p):
     '''expressao_linha : PLUS termo expressao_linha
                        | MINUS termo expressao_linha
                        | vazio'''
-    pass
+    if len(p) == 4:
+        if p[1] == '+':
+            p[0] = p[2] + p[3]
+        elif p[1] == '-':
+            p[0] = -p[2] + p[3]
+    else:
+        p[0] = 0
 
 def p_termo(p):
     '''termo : fator termo_linha'''
-    pass
+    p[0] = p[1] * p[2]
 
 def p_termo_linha(p):
     '''termo_linha : TIMES fator termo_linha
                    | DIVIDE fator termo_linha
                    | vazio'''
-    pass
+    if len(p) == 4:
+        if p[1] == '*':
+            p[0] = p[2] * p[3]
+        elif p[1] == '/':
+            p[0] = p[2] / p[3]
+    else:
+        p[0] = 1
 
 def p_fator(p):
     '''fator : LPAREN expressao RPAREN
-             | ID
              | NUMBER'''
-    pass
+    if len(p) == 4:
+        p[0] = p[2]
+    elif isinstance(p[1], int):
+        p[0] = p[1]
+    else:
+        p[0] = 0
 
 def p_vazio(p):
     'vazio :'
-    pass
+    p[0] = 0
 
 def p_error(p):
     if p:
