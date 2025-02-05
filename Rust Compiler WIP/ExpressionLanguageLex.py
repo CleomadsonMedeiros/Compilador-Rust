@@ -1,18 +1,17 @@
 import ply.lex as lex
 
 reservadas = {
-    # Exemplo de palavras reservadas (caso precise mais tarde)
-    # 'while': 'WHILE',
-    # 'true': 'TRUE',
-    # 'false': 'FALSE',
-    # 'return': 'RETURN',
-    # 'fn': 'FN',
-    # 'let': 'LET',
-    # 'mut': 'MUT',
-    # 'if': 'IF',
-    # 'else': 'ELSE',
-    # 'for': 'FOR',
-    # 'in': 'IN',
+    'while': 'WHILE',
+    'true': 'TRUE',
+    'false': 'FALSE',
+    'return': 'RETURN',
+    'fn': 'FN',
+    'let': 'LET',
+    'mut': 'MUT',
+    'if': 'IF',
+    'else': 'ELSE',
+    'for': 'FOR',
+    'in': 'IN',
 }
 
 # Tokens
@@ -23,6 +22,8 @@ tokens = (
     "DIVIDE", 
     "LPAREN", 
     "RPAREN",
+    "LBRACE",
+    "RBRACE",
     "NUMBER",
     "ID"
 ) + tuple(reservadas.values())
@@ -33,6 +34,8 @@ t_TIMES   = r'\*'
 t_DIVIDE  = r'/'
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
+t_LBRACE  = r'\{'
+t_RBRACE  = r'\}'
 
 def t_NUMBER(t):
     r'\d+'
@@ -63,17 +66,3 @@ def t_error(t):
     t.lexer.skip(1)
 
 lexer = lex.lex()
-
-data = '''
-3 + 4 * (2 - 1)
-'''
-
-lexer.input(data)
-
-# Lendo os tokens
-while True:
-    tok = lexer.token()
-    if not tok:
-        break
-    print(tok)
-
