@@ -30,11 +30,15 @@ def p_factor_number(p):
     'factor : NUMBER'
     p[0] = p[1]
 
+def p_factor_paren(p):
+    'factor : LPAREN expression RPAREN'
+    p[0] = p[2]
+
 def p_error(p):
     print("Erro de sintaxe!")
 
 parser = yacc.yacc()
 
 # Teste do parser
-resultado = parser.parse("3 * 2")
-print(resultado)
+resultado = parser.parse("3 * (2 + 4)")
+print(resultado)  # Deve imprimir 18
