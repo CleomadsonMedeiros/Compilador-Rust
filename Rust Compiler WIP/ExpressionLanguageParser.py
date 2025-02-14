@@ -29,16 +29,16 @@ def p_statement_for_statement(p):
 def p_statement_block_statement(p):
     'statement : block_statement'
 
-def p_expression_statement(p):
+def p_expression_statement_semi(p):
     'expression_statement : expression SEMICOLON'
 
-def p_var_declaration(p):
+def p_var_declaration_semi(p):
     'var_declaration : LET MUT ID ASSIGN expression SEMICOLON'
 
-def p_var_declaration2(p):
+def p_var_declaration2_semi(p):
     'var_declaration : LET ID ASSIGN expression SEMICOLON'
 
-def p_var_assignment(p):
+def p_var_assignment_semi(p):
     'var_assignment : ID ASSIGN expression SEMICOLON'
 
 def p_while_statement(p):
@@ -47,10 +47,10 @@ def p_while_statement(p):
 def p_for_statement(p):
     'for_statement : FOR ID IN expression block_statement'
 
-def p_return_statement(p):
+def p_return_statement_semi(p):
     'return_statement : RETURN expression SEMICOLON'
 
-def p_block_statement(p):
+def p_block_statement_braces(p):
     'block_statement : LBRACE program RBRACE'
 
 def p_expression_plus(p):
@@ -73,7 +73,7 @@ def p_expression_term(p):
     'expression : term'
     # p[0] = p[1]
 
-def p_expression_range(p): # gerou 3 conflitos shift/reduce
+def p_expression_range(p):
     'expression : expression RANGE term'
 
 def p_term_factor(p):
