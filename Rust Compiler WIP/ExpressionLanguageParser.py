@@ -101,6 +101,15 @@ def p_condition_greaterequal(p):
 
 def p_condition_lessequal(p):
     'condition : expression LESSEQUAL expression'
+
+def p_condition_greater(p):
+    'condition : expression GREATER expression'
+
+def p_condition_less(p):
+    'condition : expression LESS expression'
+
+def p_condition_equals(p):
+    'condition : expression EQUALS expression'
 #endregion
 
 #Region Operadores Logicos
@@ -145,15 +154,6 @@ def p_return_statement(p):
 
 def p_block_statement(p):
     'block_statement : LBRACE statement_list RBRACE'
-
-def p_condition_greater(p):
-    'condition : expression GREATER expression'
-
-def p_condition_less(p):
-    'condition : expression LESS expression'
-
-def p_condition_equals(p):
-    'condition : expression EQUALS expression'
 
 def p_expression_plus(p):
     'expression : expression PLUS term'
@@ -207,7 +207,10 @@ resultado = parser.parse('''
         1 + 1;
         3 - 2;
         x = y + 4;
-        while (1) {
+        if (!x) {
+          x = x + 1;
+        }
+        while (x > 2) {
         1 + 1;
         2 / 2;
         }
