@@ -15,7 +15,43 @@ def p_main_function(p):
 def p_statement_list(p):
     '''statement_list : statement
                     | statement statement_list'''
+    
+# reconhecer funções
+
+def p_def_function(p):
+    '''function_def : FN ID LPAREN param_list RPAREN ARROW return_type block_statement
+                | FN ID LPAREN RPAREN block_statement'''
+    
+def p_function_call(p):
+    '''function_call : ID LPAREN RPAREN SEMICOLON
+                      | ID LPAREN id_list RPAREN SEMICOLON
+                      | ID LPAREN RPAREN
+                      | ID LPAREN id_list RPAREN'''
+    
+def p_id_list(p):
+    '''id_list : ID COMMA id_list
+              | NUMBER COMMA id_list
+              | ID
+              | NUMBER
+              | function_call'''
+    
+def p_param_list_params(p):
+    '''param_list : param COMMA param_list
+                  | param'''
+    
+def p_param_id(p):
+    '''param : ID COLON I32
+              | ID COLON F64'''
+    
+def p_return_type(p):
+    '''return_type : I32
+                  | F64'''
+    
 #region statements
+def p_statement_function(p):
+    '''statement : function_def
+                | function_call'''
+
 def p_statement_expression_statement(p):
     'statement : expression_statement'
 
@@ -175,6 +211,10 @@ resultado = parser.parse('''
         1 + 1;
         2 / 2;
         }
+        fn soma(a: i32, b: f64, c: i32) -> f64 {
+          return a + b;
+        }
+        fn show() { println(soma(3, soma(3,3)));}
         for x in 1..10 / 5 {
         0 + 1;
         }
