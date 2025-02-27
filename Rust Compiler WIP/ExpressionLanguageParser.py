@@ -70,16 +70,19 @@ def p_condition_lessequal(p):
 #Region Operadores Logicos
 
 def p_condition_and(p):
-    'condition : condition AND condition'
+    'condition : condition AND condition2'
 
 def p_condition_or(p):
-    'condition : condition OR condition'
+    'condition : condition OR condition2'
 
 def p_condition_not(p):
-    'condition : NOT condition'
+    'condition : NOT condition2'
 
 def p_condition_expr(p):
     'condition : expression'
+
+def p_condition2_expr(p):
+    'condition2 : expression'
 
 #endregion
 
