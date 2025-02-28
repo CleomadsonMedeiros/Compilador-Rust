@@ -16,7 +16,8 @@ reservadas = {
     'range': 'RANGE',
     'main': 'MAIN',
     'i32': 'I32',
-    'f64': 'F64'
+    'f64': 'F64',
+    'bool': 'BOOL'
 }
 
 # Tokens
