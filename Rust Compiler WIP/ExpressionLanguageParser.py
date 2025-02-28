@@ -63,10 +63,10 @@ def p_statement_var_assignment(p):
     'statement : var_assignment'
 
 def p_statement_if(p):
-    'statement : IF LPAREN condition RPAREN block_statement'
+    'statement : IF condition block_statement'
 
 def p_statement_if_else(p):
-    'statement : IF LPAREN condition RPAREN block_statement statement_else'
+    'statement : IF condition block_statement statement_else'
 
 def p_statement_else_block(p):
     'statement_else : ELSE block_statement'
@@ -75,10 +75,10 @@ def p_statement_else_if(p):
     'statement_else : ELSE statement_else_if'
 
 def p_statement_else_if_block(p):
-    'statement_else_if : IF LPAREN condition RPAREN block_statement'
+    'statement_else_if : IF condition block_statement'
 
 def p_statement_else_if_with_else(p):
-    'statement_else_if : IF LPAREN condition RPAREN block_statement statement_else'
+    'statement_else_if : IF condition block_statement statement_else'
 
 def p_statement_while_statement(p):
     'statement : while_statement'
@@ -136,16 +136,18 @@ def p_expression_statement(p):
     'expression_statement : expression SEMICOLON'
 
 def p_var_declaration(p):
-    'var_declaration : LET MUT ID ASSIGN expression SEMICOLON'
+    '''var_declaration : LET MUT ID ASSIGN expression SEMICOLON
+                      | LET MUT param ASSIGN expression SEMICOLON'''
 
 def p_var_declaration2(p):
-    'var_declaration : LET ID ASSIGN expression SEMICOLON'
+    '''var_declaration : LET ID ASSIGN expression SEMICOLON
+                      | LET param ASSIGN expression SEMICOLON'''
 
 def p_var_assignment(p):
     'var_assignment : ID ASSIGN expression SEMICOLON'
 
 def p_while_statement(p):
-    'while_statement : WHILE LPAREN condition RPAREN block_statement'
+    'while_statement : WHILE condition block_statement'
 
 def p_for_statement(p):
     'for_statement : FOR ID IN expression block_statement'
@@ -202,16 +204,17 @@ parser = yacc.yacc()
 # Teste do parser
 resultado = parser.parse('''                 
     fn main(){
-        let mut x = 5;
+        let mut x: i32 = 5;
         x + 1;
         let y = 4;
         1 + 1;
         3 - 2;
         x = y + 4;
-        if (!x) {
+        if !x {
           x = x + 1;
         }
-        while (x > 2) {
+         let a = x < 2;
+        while x > 2 {
         1 + 1;
         2 / 2;
         }
