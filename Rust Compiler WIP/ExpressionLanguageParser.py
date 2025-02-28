@@ -41,11 +41,17 @@ def p_param_list_params(p):
     
 def p_param_id(p):
     '''param : ID COLON I32
-              | ID COLON F64'''
+              | ID COLON F64
+              | ID COLON bool'''
     
 def p_return_type(p):
     '''return_type : I32
-                  | F64'''
+                  | F64
+                  | bool'''
+    
+def p_bool_type(p):
+    '''bool : TRUE 
+            | FALSE'''
 #endregion
     
 #region statements
@@ -213,7 +219,6 @@ resultado = parser.parse('''
         if !x {
           x = x + 1;
         }
-         let a = x < 2;
         while x > 2 {
         1 + 1;
         2 / 2;
