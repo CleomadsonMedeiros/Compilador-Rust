@@ -21,7 +21,7 @@
 
 #### 3. Delimitadores
 
-Comandos Rust utilizam ";" (ponto e vírgula) como delimitador. Parâmetros de funções utilizam "," (vírgula). Além disso,  utiliza os delimitadores ( ) (parênteses) para agrupamento de expressões. Por fim, também é utilizado o delimitador { } (chaves) para blocos de comando.
+Comandos Rust utilizam ";" (ponto e vírgula) como delimitador. Parâmetros de funções utilizam "," (vírgula). Além disso, não utiliza os delimitadores ( ) (parênteses) para agrupamento de expressões. Por fim, também é utilizado o delimitador { } (chaves) para blocos de comando.
 
 #### 4. Identificadores
 
