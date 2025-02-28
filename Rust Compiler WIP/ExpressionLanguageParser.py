@@ -65,10 +65,10 @@ def p_statement_var_assignment(p):
     'statement : var_assignment'
 
 def p_statement_if(p):
-    'statement : IF condition block_statement'
+    'statement : IF expression block_statement'
 
 def p_statement_if_else(p):
-    'statement : IF condition block_statement statement_else'
+    'statement : IF expression block_statement statement_else'
 
 def p_statement_else_block(p):
     'statement_else : ELSE block_statement'
@@ -77,10 +77,10 @@ def p_statement_else_if(p):
     'statement_else : ELSE statement_else_if'
 
 def p_statement_else_if_block(p):
-    'statement_else_if : IF condition block_statement'
+    'statement_else_if : IF expression block_statement'
 
 def p_statement_else_if_with_else(p):
-    'statement_else_if : IF condition block_statement statement_else'
+    'statement_else_if : IF expression block_statement statement_else'
 
 def p_statement_while_statement(p):
     'statement : while_statement'
@@ -97,40 +97,37 @@ def p_statement_block_statement(p):
 
 #region Operadores Relacionais
 def p_condition_notequal(p):
-    'condition : expression NOTEQUAL expression'
+    'expression : expression NOTEQUAL condition'
 
 def p_condition_greaterequal(p):
-    'condition : expression GREATEREQUAL expression'
+    'expression : expression GREATEREQUAL condition'
 
 def p_condition_lessequal(p):
-    'condition : expression LESSEQUAL expression'
+    'expression : expression LESSEQUAL condition'
 
 def p_condition_greater(p):
-    'condition : expression GREATER expression'
+    'expression : expression GREATER condition'
 
 def p_condition_less(p):
-    'condition : expression LESS expression'
+    'expression : expression LESS condition'
 
 def p_condition_equals(p):
-    'condition : expression EQUALS expression'
+    'expression : expression EQUALS condition'
 #endregion
 
 #Region Operadores Logicos
 
-def p_condition_and(p):
-    'condition : condition AND condition2'
+def p_expr_and(p):
+    'expression : expression AND condition'
 
-def p_condition_or(p):
-    'condition : condition OR condition2'
+def p_expr_or(p):
+    'expression : expression OR condition'
 
-def p_condition_not(p):
-    'condition : NOT condition2'
+def p_expr_not(p):
+    'expression : NOT condition'
 
-def p_condition_expr(p):
-    'condition : expression'
-
-def p_condition2_expr(p):
-    'condition2 : expression'
+def p_condition_term(p):
+    'condition : term'
 
 #endregion
 
@@ -149,7 +146,7 @@ def p_var_assignment(p):
     'var_assignment : ID ASSIGN expression SEMICOLON'
 
 def p_while_statement(p):
-    'while_statement : WHILE condition block_statement'
+    'while_statement : WHILE expression block_statement'
 
 def p_for_statement(p):
     'for_statement : FOR ID IN expression block_statement'
@@ -215,7 +212,9 @@ resultado = parser.parse('''
         if !x {
           x = x + 1;
         }
-        while x > 2 {
+        let a = 3 >= 5;
+        3 != 3;
+        while x > 2 && x < 0 {
         1 + 1;
         2 / 2;
         }
