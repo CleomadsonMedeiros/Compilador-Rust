@@ -16,7 +16,7 @@ def p_statement_list(p):
     '''statement_list : statement
                     | statement statement_list'''
     
-# reconhecer funções
+# region funções
 
 def p_def_function(p):
     '''function_def : FN ID LPAREN param_list RPAREN ARROW return_type block_statement
@@ -46,6 +46,7 @@ def p_param_id(p):
 def p_return_type(p):
     '''return_type : I32
                   | F64'''
+#endregion
     
 #region statements
 def p_statement_function(p):
@@ -62,10 +63,10 @@ def p_statement_var_assignment(p):
     'statement : var_assignment'
 
 def p_statement_if(p):
-    'statement : IF condition block_statement'
+    'statement : IF LPAREN condition RPAREN block_statement'
 
 def p_statement_if_else(p):
-    'statement : IF condition block_statement statement_else'
+    'statement : IF LPAREN condition RPAREN block_statement statement_else'
 
 def p_statement_else_block(p):
     'statement_else : ELSE block_statement'
@@ -74,10 +75,10 @@ def p_statement_else_if(p):
     'statement_else : ELSE statement_else_if'
 
 def p_statement_else_if_block(p):
-    'statement_else_if : IF condition block_statement'
+    'statement_else_if : IF LPAREN condition RPAREN block_statement'
 
 def p_statement_else_if_with_else(p):
-    'statement_else_if : IF condition block_statement statement_else'
+    'statement_else_if : IF LPAREN condition RPAREN block_statement statement_else'
 
 def p_statement_while_statement(p):
     'statement : while_statement'
@@ -144,7 +145,7 @@ def p_var_assignment(p):
     'var_assignment : ID ASSIGN expression SEMICOLON'
 
 def p_while_statement(p):
-    'while_statement : WHILE condition block_statement'
+    'while_statement : WHILE LPAREN condition RPAREN block_statement'
 
 def p_for_statement(p):
     'for_statement : FOR ID IN expression block_statement'
