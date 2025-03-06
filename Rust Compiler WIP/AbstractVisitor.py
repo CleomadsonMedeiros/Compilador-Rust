@@ -1,6 +1,100 @@
 from abc import abstractmethod, ABCMeta
 
 class AbstractVisitor(metaclass=ABCMeta):
+
+    @abstractmethod
+    def visitProgram(self, program): pass
+
+    @abstractmethod
+    def visitMainFunction(self, mainFunction): pass
+    
+    @abstractmethod
+    def visitStatementListStatement(self, statementListStatement): pass
+
+    @abstractmethod
+    def visitStatementList(self, statementList): pass
+
+    @abstractmethod
+    def visitDefFunction(self, defFunction): pass
+
+    @abstractmethod
+    def visitDefFunctionUnit(self, defFunctionUnit): pass
+
+    @abstractmethod
+    def visitFunctionCallSemicolon(self, functionCallSemicolon): pass
+
+    @abstractmethod
+    def visitFunctionCallIdListSemicolon(self, functionCallIdListSemicolon): pass
+
+    @abstractmethod
+    def visitFunctionCall(self, functionCall): pass
+
+    @abstractmethod
+    def visitFunctionCallIdList(self, functionCallIdList): pass
+
+    @abstractmethod
+    def visitIdListIdComma(self, idListIdComma): pass
+
+    @abstractmethod
+    def visitIdListNumberComma(self, idListNumberComma): pass
+
+    @abstractmethod
+    def visitIdListId(self, idListIdComma): pass
+
+    @abstractmethod
+    def visitIdListNumber(self, idListNumber): pass
+
+    @abstractmethod
+    def visitIdListFunctionCall(self, idListFunctionCall): pass
+
+    @abstractmethod
+    def visitParamListParamComma(self, paramListParamComma): pass
+
+    @abstractmethod
+    def visitParamListParam(self, paramListParam): pass
+
+    @abstractmethod
+    def visitParamIdI32(self, paramIDI32): pass
+
+    @abstractmethod
+    def visitParamIdF64(self, paramIdF64): pass
+
+    @abstractmethod
+    def visitParamIdBool(self, paramIdBool): pass
+
+    @abstractmethod
+    def visitStatementFunctionDef(self, statementFunctionDef): pass
+
+    @abstractmethod
+    def visitStatementFunctionCall(self, statementFunctionCall): pass
+
+    @abstractmethod
+    def visitStatementExpressionStatement(self, statementExpressionStatement): pass
+
+    @abstractmethod
+    def visitStatementVarDeclaration(self, statementVarDeclaration): pass
+
+    @abstractmethod
+    def visitStatementVarAssignment(self, statementVarAssignment): pass
+
+    @abstractmethod
+    def visitStatementIf(self, statementIf): pass
+
+    @abstractmethod
+    def visitStatementIfElse(self, statementIfElse): pass
+
+    @abstractmethod
+    def visitStatementElseBlock(self, statementElseBlock): pass
+
+    @abstractmethod
+    def visitStatementElseIf(self, statementElseIf): pass
+
+    @abstractmethod
+    def visitStatementElseIfBlock(self, statementElseIfBlock): pass
+
+    @abstractmethod
+    def visitStatementIfWithElse(self, statementIfWithElse): pass
+
     @abstractmethod
     def visitStatementWhileStatement(self, whileStatement): pass
     

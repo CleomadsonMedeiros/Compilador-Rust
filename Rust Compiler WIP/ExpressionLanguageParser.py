@@ -1,8 +1,6 @@
 import ply.yacc as yacc
 from ExpressionLanguageLex import tokens
 
-
-
 # Regras do analisador sintático (parser)
 
 # Pra executar apenas dentro da função main
@@ -115,7 +113,7 @@ def p_condition_equals(p):
     'expression : expression EQUALS condition'
 #endregion
 
-#Region Operadores Logicos
+#region Operadores Logicos
 
 def p_expr_and(p):
     'expression : expression AND condition'
