@@ -14,7 +14,10 @@ reservadas = {
     'for': 'FOR',
     'in': 'IN',
     'range': 'RANGE',
-    'main': 'MAIN'
+    'main': 'MAIN',
+    'i32': 'I32',
+    'f64': 'F64',
+    'bool': 'BOOL'
 }
 
 # Tokens
@@ -36,8 +39,9 @@ tokens = (
     'NOTEQUAL',
     'GREATEREQUAL',
     'LESSEQUAL',
-    #'COMMA',
-    #'ARROW',
+    'COMMA',
+    'ARROW',
+    'COLON',
     'SEMICOLON',
     'MODULO',
     'NOT',
@@ -57,8 +61,9 @@ t_EQUALS = r'=='
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_ASSIGN = r'='
-#t_COMMA = r','
-#t_ARROW = r'->'
+t_COMMA = r','
+t_ARROW = r'->'
+t_COLON = r':'
 t_SEMICOLON = r';'
 t_RANGE = r'\.\.'
 t_NOTEQUAL = r'!='
