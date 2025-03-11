@@ -69,124 +69,124 @@ class IdListIdNumFunctionCall():
   def accept(self, visitor):
     visitor.visitIdListIdNumFunctionCall(self)
 
-def Expression(metaclass = ABCMeta):
+class Expression(metaclass = ABCMeta):
     @abstractmethod
     def accept(self, visitor):
         pass
 
-def Statement(metaclass = ABCMeta):
+class Statement(metaclass = ABCMeta):
     @abstractmethod
     def accept(self, visitor):
         pass
 
-def Condition(metaclass = ABCMeta):
+class Condition(metaclass = ABCMeta):
     @abstractmethod
     def accept(self, visitor):
         pass
 
-def VarDeclaration(metaclass = ABCMeta):
+class VarDeclaration(metaclass = ABCMeta):
     @abstractmethod
     def accept(self, visitor):
         pass
 
-def VarAssignment(metaclass = ABCMeta):
+class VarAssignment(metaclass = ABCMeta):
     @abstractmethod
     def accept(self, visitor):
         pass
 
-def ExpressionAnd(Expression):
+class ExpressionAnd(Expression):
     def __init__(self, expression, condition):
         self.expression = expression
         self.condition = condition
     def accept(self, visitor):
         return visitor.visitExprAnd(self)
     
-def ExpressionOr(Expression):
+class ExpressionOr(Expression):
     def __init__(self, expression, condition):
         self.expression = expression
         self.condition = condition
     def accept(self, visitor):
         return visitor.visitExprOr(self)
     
-def ExpressionNot(Expression):
+class ExpressionNot(Expression):
     def __init__(self, condition):
         self.condition = condition
     def accept(self, visitor):
         return visitor.visitExprNot(self)
 
-def ConditionTerm(Condition):
+class ConditionTerm(Condition):
     def __init__(self, term):
         self.term = term
     def accept(self, visitor):
         return visitor.visitConditionTerm(self)
     
-def ExpressionStatement(Expression):
+class ExpressionStatement(Expression):
     def __init__(self, expression):
         self.expression = expression
     def accept(self, visitor):
         return visitor.visitExpressionStatement(self)
     
-def VarDeclarationMutId(VarDeclaration):
+class VarDeclarationMutId(VarDeclaration):
     def __init__(self, id, expression):
         self.id = id
         self.expression = expression
     def accept(self, visitor):
         return visitor.visitVarDeclarationMutId(self)
 
-def VarDeclarationMutParam(VarDeclaration):
+class VarDeclarationMutParam(VarDeclaration):
     def __init__(self, param, expression):
         self.param = param
         self.expression = expression
     def accept(self, visitor):
         return visitor.visitVarDeclarationMutParam(self)
 
-def VarDeclarationId(VarDeclaration):
+class VarDeclarationId(VarDeclaration):
     def __init__(self, id, expression):
         self.id = id
         self.expression = expression
     def accept(self, visitor):
         return visitor.visitVarDeclarationId(self)
 
-def VarDeclarationParam(VarDeclaration):
+class VarDeclarationParam(VarDeclaration):
     def __init__(self, param, expression):
         self.param = param
         self.expression = expression
     def accept(self, visitor):
         return visitor.visitVarDeclarationParam(self)
 
-def VarAssignment(VarAssignment):
+class VarAssignment(VarAssignment):
     def __init__(self, id, expression):
         self.id = id
         self.expression = expression
     def accept(self, visitor):
         return visitor.visitVarAssignment(self)
     
-def WhileStatement(Statement):
+class WhileStatement(Statement):
     def __init__(self, expression):
         self.expression = expression
     def accept(self, visitor):
         return visitor.visitWhileStatement(self)
 
-def ForStatement(Statement):
+class ForStatement(Statement):
     def __init__(self, id, expression):
         self.id = id
         self.expression = expression
     def accept(self, visitor):
         return visitor.visitForStatement(self)
 
-def ReturnStatement(Statement):
+class ReturnStatement(Statement):
     def __init__(self, expression):
         self.expression = expression
     def accept(self, visitor):
         return visitor.visitReturnStatement(self)
     
-def StatementBlockStatement(Statement):
+class StatementBlockStatement(Statement):
     def __init__(self, statementList):
         self.statements = statementList
     def accept(self, visitor):
         return visitor.visitStatementBlockStatement(self)
     
-def ExpressionPlus(Expression):
+class ExpressionPlus(Expression):
     def __init__(self, expression, term):
         self.expression = expression
         self.term = term
