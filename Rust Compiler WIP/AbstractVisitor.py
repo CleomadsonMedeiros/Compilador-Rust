@@ -126,13 +126,13 @@ class AbstractVisitor(metaclass=ABCMeta):
     def visitConditionEquals(self, equals): pass
     
     @abstractmethod 
-    def visitExprAnd(self, exprAnd): pass 
+    def visitExpressionAnd(self, expressionAnd): pass 
     
     @abstractmethod 
-    def visitExprOr(self, exprOr): pass 
+    def visitExpressionOr(self, expressionOr): pass 
     
     @abstractmethod 
-    def visitExprNot(self, exprNot): pass
+    def visitExpressionNot(self, expressionNot): pass
     
     @abstractmethod
     def visitConditionTerm(self, conditionTerm): pass
@@ -141,10 +141,16 @@ class AbstractVisitor(metaclass=ABCMeta):
     def visitExpressionStatement(self, expressionStatement): pass   
     
     @abstractmethod
-    def visitVarDeclaration(self, varDeclaration): pass 
+    def visitVarDeclarationMutId(self, varDeclaration): pass 
     
     @abstractmethod
-    def visitVarDeclaration2(self, varDeclaration2): pass
+    def visitVarDeclarationMutParam(self, varDeclarationMutParam): pass
+
+    @abstractmethod
+    def visitVarDeclarationId(self, varDeclarationId): pass
+
+    @abstractmethod
+    def visitVarDeclarationParam(self, varDeclarationParam): pass
     
     @abstractmethod
     def visitVarAssignment(self, varAssignment): pass

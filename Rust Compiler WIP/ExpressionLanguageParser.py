@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 from ExpressionLanguageLex import tokens
-
+import SintaxeAbstrata as sa
 # Regras do analisador sintático (parser)
 
 # Pra executar apenas dentro da função main
@@ -142,52 +142,67 @@ def p_condition_equals(p):
 
 #region Operadores Logicos
 
-def p_expr_and(p):
+def p_expression_and(p):
     'expression : expression AND condition'
+    p[0] = sa.ExpressionAnd(p[1], p[3])
 
-def p_expr_or(p):
+def p_expression_and(p):
     'expression : expression OR condition'
+    p[0] = sa.ExpressionOr(p[1], p[3])
 
-def p_expr_not(p):
+def p_expression_and(p):
     'expression : NOT condition'
+    p[0] = sa.ExpressionNot(p[2])
 
 def p_condition_term(p):
     'condition : term'
+    p[0] = sa.ConditionTerm(p[1])
 
 #endregion
 
 def p_expression_statement(p):
     'expression_statement : expression SEMICOLON'
+    p[0] = sa.ExpressionStatement(p[1])
 
 def p_var_declaration_mut_id(p):
     'var_declaration : LET MUT ID ASSIGN expression SEMICOLON'
+    p[0] = sa.VarDeclarationMutId(p[3], p[5])
 
 def p_var_declaration_mut_param(p):
     'var_declaration : LET MUT param ASSIGN expression SEMICOLON'
+    p[0] = sa.VarDeclarationMutParam(p[3], p[5])
 
 def p_var_declaration_id(p):
     'var_declaration : LET ID ASSIGN expression SEMICOLON'
+    p[0] = sa.VarDeclarationId(p[2], p[4])
 
 def p_var_declaration_param(p):
     'var_declaration : LET param ASSIGN expression SEMICOLON'
+    p[0] = sa.VarDeclarationParam(p[2], p[4])
 
 def p_var_assignment(p):
     'var_assignment : ID ASSIGN expression SEMICOLON'
+    p[0] = sa.VarAssignment(p[1], p[3])
 
 def p_while_statement(p):
     'while_statement : WHILE expression block_statement'
+    p[0] = sa.WhileStatement(p[2])
 
 def p_for_statement(p):
     'for_statement : FOR ID IN expression block_statement'
+    p[0] = sa.ForStatement(p[2], p[4])
 
 def p_return_statement(p):
     'return_statement : RETURN expression SEMICOLON'
+    p[0] = sa.ReturnStatement(p[2])
 
 def p_block_statement(p):
     'block_statement : LBRACE statement_list RBRACE'
+    p[0] = sa.BlockStatement(p[2])
 
 def p_expression_plus(p):
     'expression : expression PLUS term'
+    p[0] = sa.ExpressionPlus(p[1], p[3])
 
 def p_expression_minus(p):
     'expression : expression MINUS term'
@@ -216,11 +231,9 @@ def p_factor_number(p):
 def p_factor_paren(p):
     'factor : LPAREN expression RPAREN'
 
-def p_factor_true(p):
-    'factor : TRUE'
-
-def p_factor_false(p):
-    'factor : FALSE'
+def p_factor_boolean(p):
+    '''factor : TRUE
+              | FALSE'''
 
 def p_factor_id(p):
     'factor : ID'
@@ -260,3 +273,5 @@ resultado = parser.parse('''
     }     
 ''')
 print(resultado)
+result = parser.parse(debug = True)
+print(result)
