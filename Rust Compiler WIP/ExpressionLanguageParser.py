@@ -1,52 +1,69 @@
 import ply.yacc as yacc
+import AbstractSyntax as sa
 from ExpressionLanguageLex import tokens
-import SintaxeAbstrata as sa
 # Regras do analisador sintático (parser)
 
 # Pra executar apenas dentro da função main
 def p_program_main(p):
     'program : main_function'
+    p[0] = sa.Program(p[1])
 
 def p_main_function(p):
     'main_function : FN MAIN LPAREN RPAREN block_statement'
+    p[0] = sa.MainF(p[5])
 
 def p_statement_list(p):
     '''statement_list : statement
                     | statement statement_list'''
+    if len(p) == 2:
+        p[0] = sa.StatementListStatement(p[1])
+    elif len(p) == 3:
+        p[0] = sa.StatementList(p[0], p[1])
     
 # region funções
 def p_def_function_with_params(p):
     'function_def : FN ID LPAREN param_list RPAREN ARROW return_type block_statement'
+    p[0] = sa.DefFunction(p[2], p[4], p[7], p[8])
 
 def p_def_function_no_params(p):
     'function_def : FN ID LPAREN RPAREN block_statement'
+    p[0] = sa.DefFunctionUnit(p[2], p[5])
     
 def p_function_call_no_params_semicolon(p):
     'function_call : ID LPAREN RPAREN SEMICOLON'
+    p[0] = sa.FunctionCall(p[1])
 
 def p_function_call_with_params_semicolon(p):
     'function_call : ID LPAREN id_list RPAREN SEMICOLON'
+    p[0] = sa.FunctionCallIdList(p[1], p[3])
 
 def p_function_call_no_params(p):
     'function_call : ID LPAREN RPAREN'
+    p[0] = sa.FunctionCall(p[1])
 
 def p_function_call_with_params(p):
     'function_call : ID LPAREN id_list RPAREN'
+    p[0] = sa.FunctionCallIdList(p[1], p[3])
     
 def p_id_list_id_comma(p):
     'id_list : ID COMMA id_list'
+    p[0] = sa.IdListIdNumIdList(p[1], p[3])
 
 def p_id_list_number_comma(p):
     'id_list : NUMBER COMMA id_list'
+    p[0] = sa.IdListIdNumIdList(p[1], p[3])
 
 def p_id_list_id(p):
     'id_list : ID'
+    p[0] = sa.IdListIdNumFunctionCall(p[1])
 
 def p_id_list_number(p):
     'id_list : NUMBER'
+    p[0] = sa.IdListIdNumIdList(p[1])
 
 def p_id_list_function_call(p):
     'id_list : function_call'
+    p[0] = sa.IdListIdNumIdList(p[1])
     
 def p_param_list_params(p):
     'param_list : param COMMA param_list'
