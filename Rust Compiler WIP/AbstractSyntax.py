@@ -28,7 +28,8 @@ class StatementList():
     visitor.visitStatementList(self)
 
 class DefFunction():
-  def __init__(self, paramList, returnType, blockStatement):
+  def __init__(self, id, paramList, returnType, blockStatement):
+    self.id = id
     self.paramList = paramList
     self.returnType = returnType
     self.blockStatement = blockStatement
