@@ -15,43 +15,70 @@ def p_statement_list(p):
                     | statement statement_list'''
     
 # region funções
+def p_def_function_with_params(p):
+    'function_def : FN ID LPAREN param_list RPAREN ARROW return_type block_statement'
 
-def p_def_function(p):
-    '''function_def : FN ID LPAREN param_list RPAREN ARROW return_type block_statement
-                | FN ID LPAREN RPAREN block_statement'''
+def p_def_function_no_params(p):
+    'function_def : FN ID LPAREN RPAREN block_statement'
     
-def p_function_call(p):
-    '''function_call : ID LPAREN RPAREN SEMICOLON
-                      | ID LPAREN id_list RPAREN SEMICOLON
-                      | ID LPAREN RPAREN
-                      | ID LPAREN id_list RPAREN'''
+def p_function_call_no_params_semicolon(p):
+    'function_call : ID LPAREN RPAREN SEMICOLON'
+
+def p_function_call_with_params_semicolon(p):
+    'function_call : ID LPAREN id_list RPAREN SEMICOLON'
+
+def p_function_call_no_params(p):
+    'function_call : ID LPAREN RPAREN'
+
+def p_function_call_with_params(p):
+    'function_call : ID LPAREN id_list RPAREN'
     
-def p_id_list(p):
-    '''id_list : ID COMMA id_list
-              | NUMBER COMMA id_list
-              | ID
-              | NUMBER
-              | function_call'''
+def p_id_list_id_comma(p):
+    'id_list : ID COMMA id_list'
+
+def p_id_list_number_comma(p):
+    'id_list : NUMBER COMMA id_list'
+
+def p_id_list_id(p):
+    'id_list : ID'
+
+def p_id_list_number(p):
+    'id_list : NUMBER'
+
+def p_id_list_function_call(p):
+    'id_list : function_call'
     
 def p_param_list_params(p):
-    '''param_list : param COMMA param_list
-                  | param'''
+    'param_list : param COMMA param_list'
+
+def p_param_list_param(p):
+    'param_list : param'
     
-def p_param_id(p):
-    '''param : ID COLON I32
-              | ID COLON F64
-              | ID COLON BOOL'''
+def p_param_id_i32(p):
+    'param : ID COLON I32'
+
+def p_param_id_f64(p):
+    'param : ID COLON F64'
+
+def p_param_id_bool(p):
+    'param : ID COLON BOOL'
     
-def p_return_type(p):
-    '''return_type : I32
-                  | F64
-                  | BOOL'''
+def p_return_type_i32(p):
+    'return_type : I32'
+
+def p_return_type_f64(p):
+    'return_type : F64'
+
+def p_return_type_bool(p):
+    'return_type : BOOL'
 #endregion
     
 #region statements
-def p_statement_function(p):
-    '''statement : function_def
-                | function_call'''
+def p_statement_function_def(p):
+    'statement : function_def'
+
+def p_statement_function_call(p):
+    'statement : function_call'
 
 def p_statement_expression_statement(p):
     'statement : expression_statement'
@@ -132,13 +159,17 @@ def p_condition_term(p):
 def p_expression_statement(p):
     'expression_statement : expression SEMICOLON'
 
-def p_var_declaration(p):
-    '''var_declaration : LET MUT ID ASSIGN expression SEMICOLON
-                      | LET MUT param ASSIGN expression SEMICOLON'''
+def p_var_declaration_mut_id(p):
+    'var_declaration : LET MUT ID ASSIGN expression SEMICOLON'
 
-def p_var_declaration2(p):
-    '''var_declaration : LET ID ASSIGN expression SEMICOLON
-                      | LET param ASSIGN expression SEMICOLON'''
+def p_var_declaration_mut_param(p):
+    'var_declaration : LET MUT param ASSIGN expression SEMICOLON'
+
+def p_var_declaration_id(p):
+    'var_declaration : LET ID ASSIGN expression SEMICOLON'
+
+def p_var_declaration_param(p):
+    'var_declaration : LET param ASSIGN expression SEMICOLON'
 
 def p_var_assignment(p):
     'var_assignment : ID ASSIGN expression SEMICOLON'
@@ -185,9 +216,11 @@ def p_factor_number(p):
 def p_factor_paren(p):
     'factor : LPAREN expression RPAREN'
 
-def p_factor_boolean(p):
-    '''factor : TRUE
-              | FALSE'''
+def p_factor_true(p):
+    'factor : TRUE'
+
+def p_factor_false(p):
+    'factor : FALSE'
 
 def p_factor_id(p):
     'factor : ID'
