@@ -64,57 +64,75 @@ def p_id_list_number(p):
 def p_id_list_function_call(p):
     'id_list : function_call'
     p[0] = sa.IdListIdNumIdList(p[1])
-    
+#------------------------------------------------Start RENNE
 def p_param_list_params(p):
     'param_list : param COMMA param_list'
-
+    p[0] = sa.ParamParamList(p[1], p[3])
+    
 def p_param_list_param(p):
     'param_list : param'
-    
+    p[0] = sa.ParamList(p[1])
+
 def p_param_id_i32(p):
     'param : ID COLON I32'
+    p[0] = sa.ParamIdI32(p[1], p[3])
 
 def p_param_id_f64(p):
     'param : ID COLON F64'
+    p[0] = sa.ParamIdI64(p[1], p[3])
 
 def p_param_id_bool(p):
     'param : ID COLON BOOL'
+    p[0] = sa.ParamIdBool(p[1], p[3])
     
 def p_return_type_i32(p):
     'return_type : I32'
+    p[0] = sa.ReturnTypeI32(p[1])
 
 def p_return_type_f64(p):
     'return_type : F64'
+    p[0] = sa.ReturnTypeF64(p[1])
 
 def p_return_type_bool(p):
     'return_type : BOOL'
+    p[0] = sa.ReturnTypeBool(p[1])
 #endregion
     
 #region statements
 def p_statement_function_def(p):
     'statement : function_def'
+    p[0] = sa.StatementFunctionDef(p[1])
 
 def p_statement_function_call(p):
     'statement : function_call'
+    p[0] = sa.StatementFunctionCall(p[1])
 
 def p_statement_expression_statement(p):
     'statement : expression_statement'
+    p[0] = sa.StatementExpressionStatement(p[1])
 
 def p_statement_var_declaration(p):
     'statement : var_declaration'
+    p[0] = sa.StatementVarDeclaration(p[1])
 
 def p_statement_var_assignment(p):
     'statement : var_assignment'
+    p[0] = sa.StatementVarAssignment(p[1])
 
 def p_statement_if(p):
     'statement : IF expression block_statement'
+    p[0] = sa.StatementIf(p[2], p[3])
 
 def p_statement_if_else(p):
     'statement : IF expression block_statement statement_else'
+    p[0] = sa.StatementIfElse(p[2], p[3], p[4])
+
 
 def p_statement_else_block(p):
     'statement_else : ELSE block_statement'
+    p[0] = sa.StatementElseBlock(p[2])
 
+#-----------------------------------------and RENNE
 def p_statement_else_if(p):
     'statement_else : ELSE statement_else_if'
 

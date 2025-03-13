@@ -192,3 +192,118 @@ class ExpressionPlus(Expression):
         self.term = term
     def accept(self, visitor):
         return visitor.visitExpressionPlus(self)
+#RENNE  
+class Param(metaclass=ABCMeta):
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+   
+class ParamIdI32(Param):
+    def __init__(self, idname32, typename32):
+       self.idname = idname32
+       self.typename = typename32
+    
+    def accept(self, visitor):
+        return visitor.visitParamIdI32(self)
+    
+class ParamIdI64(Param):
+   def __init__(self, idname64, typename64):
+       self.idname = idname64
+       self.typename = typename64
+   def accept(self, visitor):
+        return visitor.visitParamIdI64(self)
+   
+class ParamIdBool(Param):
+   def __init__(self, idnamebool, typenamebool):
+      self.idname = idnamebool
+      self.typename = typenamebool
+   def accept(self, visitor):
+         return visitor.visitParamIdBool(self)
+   
+class RuturnType(metaclass=ABCMeta):
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+    
+class ReturnTypeI32(RuturnType):
+   def __init__(self, typename32):
+      self.typename = typename32
+   def accept(self, visitor):
+         return visitor.visitReturnTypeI32(self)
+   
+class ReturnTypeF64(RuturnType):
+   def __init__(self, typename64):
+      self.typename = typename64
+   def accept(self, visitor):
+      return visitor.visitReturnTypeF64(self)
+   
+class ReturnTypeBool(RuturnType):
+   def __init__(self, typenamebool):
+      self.typename = typenamebool
+   def accept(self, visitor):
+         return visitor.visitReturnTypeBool(self)
+   
+class ParamParamList(Param):
+   def __init__(self, param, paramlist1):
+      self.paramlist = param
+      self.paramlist1 = paramlist1
+   def accept(self, visitor):
+         return visitor.visitParamParamList(self)
+   
+class ParamList(Param):
+   def __init__(self, param):
+      self.param = param
+   def accept(self, visitor):
+         return visitor.visitParamList(self)
+   
+
+class StatementFunctionDef(Statement):
+    def __init__(self, function_def):
+        self.function_def = function_def
+    def accept(self, visitor):
+        return visitor.visitStatementFunctionDef(self)
+    
+class StatementFunctionCall(Statement):
+   def __init__(self, function_call):
+      self.function_call = function_call
+   def accept(self, visitor):
+         return visitor.visitStatementFunctionCall(self)
+   
+class StatementExpressionStatement(Statement):
+   def __init__(self, expression_statement):
+      self.expression_statement = expression_statement
+   def accept(self, visitor):
+         return visitor.visitStatementExpressionStatement(self)
+   
+class StatementVarDeclaration(Statement):
+   def __init__(self, var_declaration):
+      self.var_declaration = var_declaration
+   def accept(self, visitor):
+         return visitor.visitStatementVarDeclaration(self)
+
+class StatementVarAssignment(Statement):
+   def __init__(self, var_assignment):
+      self.var_assignment = var_assignment
+   def accept(self, visitor):
+         return visitor.visitStatementVarAssignment(self)
+   
+class StatementIf(Statement):
+    def __init__(self, condition, block):
+        self.condition = condition
+        self.block = block
+    def accept(self, visitor):
+        return visitor.visitStatementIf(self)
+    
+class StatementIfElse(Statement):
+    def __init__(self, condition, blockLeft, statemElse):
+        self.condition = condition
+        self.if_block = blockLeft
+        self.else_block = statemElse
+    def accept(self, visitor):
+        return visitor.visitStatementIfElse(self)
+    
+class StatementElseBlock(Statement):
+    def __init__(self, blockStatem):
+        self.block = blockStatem
+    def accept(self, visitor):
+        return visitor.visitStatementElseBlock(self)
