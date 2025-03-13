@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from abc import ABCMeta
+from abc import ABC
 
 class Program():
   def __init__(self, main):
@@ -68,136 +68,136 @@ class IdListIdNumFunctionCall():
   def accept(self, visitor):
     visitor.visitIdListIdNumFunctionCall(self)
 
-class Expression(metaclass = ABCMeta):
+class Expression(ABC):
   @abstractmethod
-  def accept(self, visitor):
-      pass
+  def print(self):
+    pass
 
-class Statement(metaclass = ABCMeta):
+class Statement(ABC):
   @abstractmethod
-  def accept(self, visitor):
-      pass
+  def print(self):
+    pass
 
-class Condition(metaclass = ABCMeta):
+class Condition(ABC):
   @abstractmethod
-  def accept(self, visitor):
-      pass
+  def print(self):
+    pass
 
-class VarDeclaration(metaclass = ABCMeta):
+class VarDeclaration(ABC):
   @abstractmethod
-  def accept(self, visitor):
-      pass
+  def print(self):
+    pass
 
-class VarAssignment(metaclass = ABCMeta):
+class VarAssignment(ABC):
   @abstractmethod
-  def accept(self, visitor):
-      pass
+  def print(self):
+    pass
 
 class ExpressionAnd(Expression):
   def __init__(self, expression, condition):
-      self.expression = expression
-      self.condition = condition
+    self.expression = expression
+    self.condition = condition
   def accept(self, visitor):
-      return visitor.visitExprAnd(self)
+    return visitor.visitExprAnd(self)
     
 class ExpressionOr(Expression):
   def __init__(self, expression, condition):
-      self.expression = expression
-      self.condition = condition
+    self.expression = expression
+    self.condition = condition
   def accept(self, visitor):
-      return visitor.visitExprOr(self)
+    return visitor.visitExprOr(self)
     
 class ExpressionNot(Expression):
   def __init__(self, condition):
-      self.condition = condition
+    self.condition = condition
   def accept(self, visitor):
-      return visitor.visitExprNot(self)
+    return visitor.visitExprNot(self)
 
 class ConditionTerm(Condition):
   def __init__(self, term):
-      self.term = term
+    self.term = term
   def accept(self, visitor):
-      return visitor.visitConditionTerm(self)
+    return visitor.visitConditionTerm(self)
     
 class ExpressionStatement(Expression):
   def __init__(self, expression):
-      self.expression = expression
+    self.expression = expression
   def accept(self, visitor):
-      return visitor.visitExpressionStatement(self)
+    return visitor.visitExpressionStatement(self)
     
 class VarDeclarationMutId(VarDeclaration):
   def __init__(self, id, expression):
-      self.id = id
-      self.expression = expression
+    self.id = id
+    self.expression = expression
   def accept(self, visitor):
-      return visitor.visitVarDeclarationMutId(self)
+    return visitor.visitVarDeclarationMutId(self)
 
 class VarDeclarationMutParam(VarDeclaration):
   def __init__(self, param, expression):
-      self.param = param
-      self.expression = expression
+    self.param = param
+    self.expression = expression
   def accept(self, visitor):
       return visitor.visitVarDeclarationMutParam(self)
 
 class VarDeclarationId(VarDeclaration):
   def __init__(self, id, expression):
-      self.id = id
-      self.expression = expression
+    self.id = id
+    self.expression = expression
   def accept(self, visitor):
-      return visitor.visitVarDeclarationId(self)
+    return visitor.visitVarDeclarationId(self)
 
 class VarDeclarationParam(VarDeclaration):
   def __init__(self, param, expression):
-      self.param = param
-      self.expression = expression
+    self.param = param
+    self.expression = expression
   def accept(self, visitor):
-      return visitor.visitVarDeclarationParam(self)
+    return visitor.visitVarDeclarationParam(self)
 
 class VarAssignment(VarAssignment):
   def __init__(self, id, expression):
-      self.id = id
-      self.expression = expression
+    self.id = id
+    self.expression = expression
   def accept(self, visitor):
-      return visitor.visitVarAssignment(self)
+    return visitor.visitVarAssignment(self)
     
 class WhileStatement(Statement):
   def __init__(self, expression):
-      self.expression = expression
+    self.expression = expression
   def accept(self, visitor):
-      return visitor.visitWhileStatement(self)
+    return visitor.visitWhileStatement(self)
 
 class ForStatement(Statement):
   def __init__(self, id, expression):
-      self.id = id
-      self.expression = expression
+    self.id = id
+    self.expression = expression
   def accept(self, visitor):
-      return visitor.visitForStatement(self)
+    return visitor.visitForStatement(self)
 
 class ReturnStatement(Statement):
   def __init__(self, expression):
-      self.expression = expression
+    self.expression = expression
   def accept(self, visitor):
-      return visitor.visitReturnStatement(self)
+    return visitor.visitReturnStatement(self)
     
 class StatementBlockStatement(Statement):
   def __init__(self, statementList):
-      self.statements = statementList
+    self.statements = statementList
   def accept(self, visitor):
-      return visitor.visitStatementBlockStatement(self)
+    return visitor.visitStatementBlockStatement(self)
     
 class ExpressionPlus(Expression):
   def __init__(self, expression, term):
-      self.expression = expression
-      self.term = term
+    self.expression = expression
+    self.term = term
   def accept(self, visitor):
-      return visitor.visitExpressionPlus(self)
+    return visitor.visitExpressionPlus(self)
     
 class ExpressionMinus(Expression):
   def __init__(self, expression, term):
-      self.expression = expression
-      self.term = term
+    self.expression = expression
+    self.term = term
   def accept(self, visitor):
-      return visitor.visitExpressionMinus(self)
+    return visitor.visitExpressionMinus(self)
   
 class ExpressionTerm(Expression):
   def __init__(self, term):
@@ -212,7 +212,7 @@ class ExpressionRange(Expression):
   def accept(self, visitor):
     visitor.visitExpressionRange(self)
     
-class Term(metaclass = ABCMeta):
+class Term(ABC):
   @abstractmethod
   def accept(self, visitor):
     pass
@@ -244,7 +244,7 @@ class TermFactor(Term):
   def accept(self, visitor):
     visitor.visitTermFactor(self)
 
-class Factor(metaclass = ABCMeta):
+class Factor(ABC):
   @abstractmethod
   def accept(self, visitor):
     pass
