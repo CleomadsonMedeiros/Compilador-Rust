@@ -198,7 +198,10 @@ class AbstractVisitor(metaclass=ABCMeta):
     def visitFactorParen(self, factorParen): pass
     
     @abstractmethod
-    def visitFactorBoolean(self, factorBoolean): pass
+    def visitFactorBooleanTrue(self, factorBoolean): pass
+
+    @abstractmethod
+    def visitFactorBooleanFalse(self, factorBoolean): pass
     
     @abstractmethod 
     def visitFactorID(self, factorID): pass
