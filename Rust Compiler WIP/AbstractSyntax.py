@@ -124,14 +124,15 @@ class StatementReturnStatement(Statement):
     visitor.visitStatementReturnStatement(self)
     
 class StatementForStatement(Statement):
-  def __init__(self, expression):
+  def __init__(self, id, expression):
+    self.id = id
     self.expression = expression
   def accept(self, visitor):
     visitor.visitStatementForStatement(self)
   
 class StatementBlockStatement(Statement):
-  def __init__(self, expression):
-    self.expression = expression
+  def __init__(self, statementList):
+    self.statements = statementList
   def accept(self, visitor):
     visitor.visitStatementBlockStatement(self)
     

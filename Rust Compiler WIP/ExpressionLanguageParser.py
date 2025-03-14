@@ -117,44 +117,57 @@ def p_statement_else_block(p):
 
 def p_statement_else_if(p):
     'statement_else : ELSE statement_else_if' 
+    p[0] = sa.StatementElseIf(p[2])     
 
 def p_statement_else_if_block(p):
     'statement_else_if : IF expression block_statement'
+    p[0] = sa.StatementElseIfBlock(p[2])
 
 def p_statement_else_if_with_else(p):
     'statement_else_if : IF expression block_statement statement_else'
+    p[0] = sa.StatementElseIfWithElse(p[2],p[4])
 
 def p_statement_while_statement(p):
     'statement : while_statement'
+    p[0] = sa.StatementWhileStatement(p[1])     
 
 def p_statement_return_statement(p):
     'statement : return_statement'
+    p[0] = sa.StatementReturnStatement(p[1])
 
 def p_statement_for_statement(p):
     'statement : for_statement'
+    p[0] = sa.StatementForStatement(p[1])
 
 def p_statement_block_statement(p):
     'statement : block_statement'
+    p[0] = sa.StatementBlockStatement(p[1])
 #endregion
 
 #region Operadores Relacionais
 def p_condition_notequal(p):
     'expression : expression NOTEQUAL condition'
+    p[0] = sa.ExpressionNotEqual(p[1], p[3])
 
 def p_condition_greaterequal(p):
     'expression : expression GREATEREQUAL condition'
+    p[0] = sa.ExpressionGreaterEqual(p[1], p[3])
 
 def p_condition_lessequal(p):
     'expression : expression LESSEQUAL condition'
+    p[0] = sa.ExpressionLessEqual(p[1], p[3])
 
 def p_condition_greater(p):
     'expression : expression GREATER condition'
+    p[0] = sa.ExpressionGreater(p[1], p[3])
 
 def p_condition_less(p):
     'expression : expression LESS condition'
+    p[0] = sa.ExpressionLess(p[1], p[3])    
 
 def p_condition_equals(p):
     'expression : expression EQUALS condition'
+    p[0] = sa.ExpressionEquals(p[1], p[3])
 #endregion
 
 #region Operadores Logicos

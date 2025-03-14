@@ -57,31 +57,77 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitStatementElseBlock(self, statementElseBlock): pass
 
-  def visitStatementElseIf(self, statementElseIf): pass
+  def visitStatementElseIf(self, statementElseIf): 
+    print('else if ', end='')
+    statementElseIf.expression.accept(self)
 
-  def visitStatementElseIfBlock(self, statementElseIfBlock): pass
+  def visitStatementElseIfBlock(self, statementElseIfBlock):
+    print('else if ', end='')
+    statementElseIfBlock.expression.accept(self)
+    print('{')
+    print('}')
 
-  def visitStatementIfWithElse(self, statementIfWithElse): pass
+  def visitStatementIfWithElse(self, statementIfWithElse): 
+    print('if ', end='')
+    statementIfWithElse.expression.accept(self)
+    print('{')
+    print('}')
+    print('else', end='')
+    print('{')
+    print('}')
 
-  def visitStatementWhileStatement(self, whileStatement): pass
+  def visitStatementWhileStatement(self, whileStatement): 
+    print('while ', end='') 
+    whileStatement.expression.accept(self)
+    print('{')
+    print('}')
   
-  def visitStatementReturnStatement(self, returnStatement): pass
+  def visitStatementReturnStatement(self, returnStatement): 
+    print('return ', end='')
+    returnStatement.expression.accept(self)
+    print(';')
     
-  def visitStatementForStatement(self, forStatement): pass      
+  def visitStatementForStatement(self, forStatement): 
+    print('for ', end='')
+    forStatement.id.accept(self)
+    print(' in ', end='')
+    forStatement.expression.accept(self)
+    print('{')
+    print('}')      
   
-  def visitStatementBlockStatement(self, blockStatement): pass
+  def visitStatementBlockStatement(self, blockStatement):
+    print('{')
+    print('}')
   
-  def visitConditionNotEqual(self, notEqual): pass
+  def visitConditionNotEqual(self, notEqual):
+    notEqual.expression.accept(self)
+    print(' != ', end='')
+    notEqual.condition.accept(self)
     
-  def visitConditionGreaterEqual(self, greaterEqual): pass      
+  def visitConditionGreaterEqual(self, greaterEqual):
+    greaterEqual.expression.accept(self)
+    print(' >= ', end='')
+    greaterEqual.condition.accept(self)
   
-  def visitConditionLessEqual(self, lessEqual): pass
+  def visitConditionLessEqual(self, lessEqual): 
+    lessEqual.expression.accept(self)
+    print(' <= ', end='')
+    lessEqual.condition.accept(self)
   
-  def visitConditionGreater(self, greater): pass
+  def visitConditionGreater(self, greater): 
+    greater.expression.accept(self)
+    print(' > ', end='')
+    greater.condition.accept(self)
     
-  def visitConditionLess(self, less): pass
+  def visitConditionLess(self, less): 
+    less.expression.accept(self)
+    print(' < ', end='')
+    less.condition.accept(self) 
         
-  def visitConditionEquals(self, equals): pass
+  def visitConditionEquals(self, equals): 
+    equals.expression.accept(self)
+    print(' == ', end='')
+    equals.condition.accept(self)
     
   def visitExpressionAnd(self, expressionAnd):
     expressionAnd.expression.accept(self)
