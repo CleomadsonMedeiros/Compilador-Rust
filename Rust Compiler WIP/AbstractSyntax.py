@@ -98,20 +98,20 @@ class ExpressionAnd(Expression):
     self.expression = expression
     self.condition = condition
   def accept(self, visitor):
-    return visitor.visitExprAnd(self)
+    return visitor.visitExpressionAnd(self)
     
 class ExpressionOr(Expression):
   def __init__(self, expression, condition):
     self.expression = expression
     self.condition = condition
   def accept(self, visitor):
-    return visitor.visitExprOr(self)
+    return visitor.visitExpressionOr(self)
     
 class ExpressionNot(Expression):
   def __init__(self, condition):
     self.condition = condition
   def accept(self, visitor):
-    return visitor.visitExprNot(self)
+    return visitor.visitExpressionNot(self)
 
 class ConditionTerm(Condition):
   def __init__(self, term):
@@ -161,15 +161,17 @@ class VarAssignment(VarAssignment):
     return visitor.visitVarAssignment(self)
     
 class WhileStatement(Statement):
-  def __init__(self, expression):
+  def __init__(self, expression, block_statement):
     self.expression = expression
+    self.block_statement = block_statement
   def accept(self, visitor):
     return visitor.visitWhileStatement(self)
 
 class ForStatement(Statement):
-  def __init__(self, id, expression):
+  def __init__(self, id, expression, block_statement):
     self.id = id
     self.expression = expression
+    self.block_statement = block_statement
   def accept(self, visitor):
     return visitor.visitForStatement(self)
 
