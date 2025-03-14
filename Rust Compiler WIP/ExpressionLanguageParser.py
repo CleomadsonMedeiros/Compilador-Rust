@@ -64,14 +64,14 @@ def p_id_list_number(p):
 def p_id_list_function_call(p):
     'id_list : function_call'
     p[0] = sa.IdListIdNumIdList(p[1])
-#------------------------------------------------Start RENNE
+
 def p_param_list_params(p):
     'param_list : param COMMA param_list'
-    p[0] = sa.ParamParamList(p[1], p[3])
+    p[0] = sa.ParamListParams(p[1], p[3])
     
 def p_param_list_param(p):
     'param_list : param'
-    p[0] = sa.ParamList(p[1])
+    p[0] = sa.ParamListParam(p[1])
 
 def p_param_id_i32(p):
     'param : ID COLON I32'

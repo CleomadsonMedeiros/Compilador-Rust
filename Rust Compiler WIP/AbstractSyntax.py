@@ -220,41 +220,41 @@ class ParamIdBool(Param):
    def accept(self, visitor):
          return visitor.visitParamIdBool(self)
    
-class RuturnType(metaclass=ABCMeta):
+class ReturnType(metaclass=ABCMeta):
     @abstractmethod
     def accept(self, visitor):
         pass
     
-class ReturnTypeI32(RuturnType):
+class ReturnTypeI32(ReturnType):
    def __init__(self, typename32):
       self.typename = typename32
    def accept(self, visitor):
          return visitor.visitReturnTypeI32(self)
    
-class ReturnTypeF64(RuturnType):
+class ReturnTypeF64(ReturnType):
    def __init__(self, typename64):
       self.typename = typename64
    def accept(self, visitor):
       return visitor.visitReturnTypeF64(self)
    
-class ReturnTypeBool(RuturnType):
+class ReturnTypeBool(ReturnType):
    def __init__(self, typenamebool):
       self.typename = typenamebool
    def accept(self, visitor):
          return visitor.visitReturnTypeBool(self)
    
-class ParamParamList(Param):
-   def __init__(self, param, paramlist1):
+class ParamListParams(Param):
+   def __init__(self, param, paramlist):
       self.paramlist = param
-      self.paramlist1 = paramlist1
+      self.paramlist = paramlist
    def accept(self, visitor):
-         return visitor.visitParamParamList(self)
+         return visitor.visitParamListParams(self)
    
-class ParamList(Param):
+class ParamListParam(Param):
    def __init__(self, param):
       self.param = param
    def accept(self, visitor):
-         return visitor.visitParamList(self)
+         return visitor.visitParamListParam(self)
    
 
 class StatementFunctionDef(Statement):

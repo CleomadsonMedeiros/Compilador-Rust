@@ -208,13 +208,13 @@ class AbstractVisitor(metaclass=ABCMeta):
 
     #RENNE
     @abstractmethod
-    def visitParamIdI32(sel,param32): pass
+    def visitParamIdI32(sel,paramIDI32): pass
 
     @abstractmethod
-    def visitParamIdF64(self,param64): pass
+    def visitParamIdF64(self,paramIdF64): pass
 
     @abstractmethod
-    def visitParamIdBool(self,paramBool): pass
+    def visitParamIdBool(self,paramIdBool): pass
 
     @abstractmethod
     def visitReturnTypeI32(self,ruturnType): pass
@@ -226,33 +226,33 @@ class AbstractVisitor(metaclass=ABCMeta):
     def visitReturnTypeBool(self,ruturnType): pass
 
     @abstractmethod
-    def visitParamParamList(self,listCommaList): pass
+    def visitParamListParams(self, paramListParams): pass
 
     @abstractmethod
-    def visitParamList(self,paramList): pass
+    def visitParamListParam(self,paramListParam): pass
 
     @abstractmethod
-    def visitStatementFunctionDef(self, stmtDef): pass
+    def visitStatementFunctionDef(self, statementFunctionDef): pass
 
     @abstractmethod
-    def visitStatementFunctionCall(self, stmtCall): pass
+    def visitStatementFunctionCall(self, statementFunctionCall): pass
 
     @abstractmethod
-    def visitStatementExpressionStatement(self, stmtExpre): pass
+    def visitStatementExpressionStatement(self, statementExpressionStatement): pass
 
     @abstractmethod
-    def visitStatementVarDeclaration(self,stmtVarDec): pass
+    def visitStatementVarDeclaration(self,statementVarDeclaration): pass
 
     @abstractmethod
-    def visitStatementVarAssignment(self,stmtVarDecAssig): pass
+    def visitStatementVarAssignment(self,statementVarAssignment): pass
 
     @abstractmethod
-    def visitStatementIf(self, stmtIf): pass
+    def visitStatementIf(self, statementIf): pass
 
     @abstractmethod
-    def visitStatementIfElse(self, stmtIfElse): pass
+    def visitStatementIfElse(self, statementIfElse): pass
 
     @abstractmethod
-    def visitStatementElseBlock(self,stmtBlockElse): pass
+    def visitStatementElseBlock(self,statementElseBlock): pass
 
 
