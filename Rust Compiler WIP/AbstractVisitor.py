@@ -39,7 +39,7 @@ class AbstractVisitor(metaclass=ABCMeta):
     def visitIdListNumberComma(self, idListNumberComma): pass
 
     @abstractmethod
-    def visitIdListId(self, idListIdComma): pass
+    def visitIdListId(self, idListId): pass
 
     @abstractmethod
     def visitIdListNumber(self, idListNumber): pass
@@ -61,6 +61,15 @@ class AbstractVisitor(metaclass=ABCMeta):
 
     @abstractmethod
     def visitParamIdBool(self, paramIdBool): pass
+
+    @abstractmethod
+    def visitReturnTypeI32(self, returnTypeI32): pass
+
+    @abstractmethod
+    def visitReturnTypeF64(self, returnTypeF64): pass
+
+    @abstractmethod
+    def visitReturnTypeBool(self, returnTypeBool): pass
 
     @abstractmethod
     def visitStatementFunctionDef(self, statementFunctionDef): pass
