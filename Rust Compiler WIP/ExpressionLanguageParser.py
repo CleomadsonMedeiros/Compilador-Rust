@@ -203,11 +203,11 @@ def p_var_assignment(p):
 
 def p_while_statement(p):
     'while_statement : WHILE expression block_statement'
-    p[0] = sa.WhileStatement(p[2])
+    p[0] = sa.WhileStatement(p[2], p[3])
 
 def p_for_statement(p):
     'for_statement : FOR ID IN expression block_statement'
-    p[0] = sa.ForStatement(p[2], p[4])
+    p[0] = sa.ForStatement(p[2], p[4], p[5])
 
 def p_return_statement(p):
     'return_statement : RETURN expression SEMICOLON'

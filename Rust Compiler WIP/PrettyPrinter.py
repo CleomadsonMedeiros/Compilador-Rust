@@ -83,35 +83,87 @@ class PrettyPrinter(AbstractVisitor):
         
   def visitConditionEquals(self, equals): pass
     
-  def visitExpressionAnd(self, expressionAnd): pass 
+  def visitExpressionAnd(self, expressionAnd):
+    expressionAnd.expression.accept(self)
+    print(' && ', end='')
+    expressionAnd.term.accept(self)
     
-  def visitExpressionOr(self, expressionOr): pass 
+  def visitExpressionOr(self, expressionOr):
+    expressionOr.expression.accept(self)
+    print(' || ', end='')
+    expressionOr.term.accept(self)
     
-  def visitExpressionNot(self, expressionNot): pass
+  def visitExpressionNot(self, expressionNot):
+    print('!', end='')
+    expressionNot.expression.accept(self)
   
-  def visitConditionTerm(self, conditionTerm): pass
+  def visitConditionTerm(self, conditionTerm):
+    conditionTerm.term.accept(self)
   
-  def visitExpressionStatement(self, expressionStatement): pass   
+  def visitExpressionStatement(self, expressionStatement):
+    expressionStatement.expression.accept(self)
+    print(';')   
   
-  def visitVarDeclarationMutId(self, varDeclaration): pass 
+  def visitVarDeclarationMutId(self, varDeclaration):
+    print('let mut ', end='')
+    varDeclaration.id.accept(self)
+    print(' = ', end='')
+    varDeclaration.expression.accept(self)
+    print(';', end='') 
   
-  def visitVarDeclarationMutParam(self, varDeclarationMutParam): pass
+  def visitVarDeclarationMutParam(self, varDeclarationMutParam):
+    print('let mut ', end='')
+    varDeclarationMutParam.param.accept(self)
+    print(' = ', end='')
+    varDeclarationMutParam.expression.accept(self)
+    print(';', end='')
 
-  def visitVarDeclarationId(self, varDeclarationId): pass
+  def visitVarDeclarationId(self, varDeclarationId):
+    print('let ', end='')
+    varDeclarationId.id.accept(self)
+    print(' = ', end='')
+    varDeclarationId.expression.accept(self)
+    print(';', end='')
 
-  def visitVarDeclarationParam(self, varDeclarationParam): pass
+  def visitVarDeclarationParam(self, varDeclarationParam):
+    print('let ', end='')
+    varDeclarationParam.param.accept(self)
+    print(' = ', end='')
+    varDeclarationParam.expression.accept(self)
+    print(';', end='')
   
-  def visitVarAssignment(self, varAssignment): pass
+  def visitVarAssignment(self, varAssignment):
+    varAssignment.id.accept(self)
+    print(' = ', end='')
+    varAssignment.expression.accept(self)
+    print(';', end='')
   
-  def visitWhileStatement(self, whileStatement): pass 
+  def visitWhileStatement(self, whileStatement):
+    print('while ', end='')
+    whileStatement.expression.accept(self)
+    whileStatement.blockStatement.accept(self)
   
-  def visitForStatement(self, forStatement): pass  
+  def visitForStatement(self, forStatement):
+    print('for ', end='')
+    forStatement.id.accept(self)
+    print(' in ', end='')
+    forStatement.expression.accept(self)
+    forStatement.blockStatement.accept(self)  
     
-  def visitReturnStatement(self, returnStatement): pass   
+  def visitReturnStatement(self, returnStatement):
+    print('return ', end='')
+    returnStatement.expression.accept(self)
+    print(';', end='')   
   
-  def visitBlockStatement(self, blockStatement): pass
+  def visitBlockStatement(self, blockStatement):
+    print('{')
+    blockStatement.statementList.accept(self)
+    print('}')
     
-  def visitExpressionPlus(self, expressionPlus): pass
+  def visitExpressionPlus(self, expressionPlus):
+    expressionPlus.expression.accept(self)
+    print(' + ', end='')
+    expressionPlus.term.accept(self)
         
   def visitExpressionMinus(self, expressionMinus):
     expressionMinus.expression.accept(self)
