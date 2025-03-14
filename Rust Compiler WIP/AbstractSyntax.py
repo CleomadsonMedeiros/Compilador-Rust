@@ -92,7 +92,91 @@ class VarAssignment(ABC):
   @abstractmethod
   def print(self):
     pass
+  
+class StatementElseIf(Statement):
+  def __init__(self, expression):
+    self.expression = expression
+  def accept(self, visitor):
+    visitor.visitStatementElseIf(self)
+    
+class StatementElseIfBlock(Statement):
+  def __init__(self, expression):
+    self.expression = expression
+  def accept(self, visitor):
+    visitor.visitStatementElseIfBlock(self)
+    
+class StatementIfWithElse(Statement):
+  def __init__(self, expression):
+    self.expression = expression
+  def accept(self, visitor):
+    visitor.visitStatementIfWithElse(self)
 
+class StatementWhileStatement(Statement):
+  def __init__(self, expression):
+    self.expression = expression
+  def accept(self, visitor):
+    visitor.visitStatementWhileStatement(self)
+    
+class StatementReturnStatement(Statement):
+  def __init__(self, expression):
+    self.expression = expression
+  def accept(self, visitor):
+    visitor.visitStatementReturnStatement(self)
+    
+class StatementForStatement(Statement):
+  def __init__(self, expression):
+    self.expression = expression
+  def accept(self, visitor):
+    visitor.visitStatementForStatement(self)
+  
+class StatementBlockStatement(Statement):
+  def __init__(self, expression):
+    self.expression = expression
+  def accept(self, visitor):
+    visitor.visitStatementBlockStatement(self)
+    
+class ConditionNotEqual(Condition):
+  def __init__(self, expression, condition):
+    self.expression = expression
+    self.condition = condition
+  def accept(self, visitor):    
+    visitor.visitConditionNotEqual(self)  
+    
+class ConditionGreaterEqual(Condition):
+  def __init__(self, expression, condition):
+    self.expression = expression
+    self.condition = condition
+  def accept(self, visitor):
+    visitor.visitConditionGreaterEqual(self)
+  
+class ConditionLessEqual(Condition):
+  def __init__(self, expression, condition):
+    self.expression = expression
+    self.condition = condition
+  def accept(self, visitor):
+    visitor.visitConditionLessEqual(self) 
+    
+class ConditionGreater(Condition):
+  def __init__(self, expression, condition):
+    self.expression = expression
+    self.condition = condition
+  def accept(self, visitor):
+    visitor.visitConditionGreater(self)
+    
+class ConditionLess(Condition): 
+  def __init__(self, expression, condition):
+    self.expression = expression
+    self.condition = condition
+  def accept(self, visitor):
+    visitor.visitConditionLess(self)
+    
+class ConditionEquals(Condition):
+  def __init__(self, expression, condition):
+    self.expression = expression
+    self.condition = condition
+  def accept(self, visitor):
+    visitor.visitConditionEquals(self) 
+    
 class ExpressionAnd(Expression):
   def __init__(self, expression, condition):
     self.expression = expression
