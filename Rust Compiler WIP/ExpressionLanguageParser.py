@@ -116,7 +116,7 @@ def p_statement_else_block(p):
     'statement_else : ELSE block_statement'
 
 def p_statement_else_if(p):
-    'statement_else : ELSE statement_else_if'
+    'statement_else : ELSE statement_else_if' 
 
 def p_statement_else_if_block(p):
     'statement_else_if : IF expression block_statement'
