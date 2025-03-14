@@ -223,37 +223,51 @@ def p_expression_plus(p):
 
 def p_expression_minus(p):
     'expression : expression MINUS term'
-
-def p_term_modulo(p):
-    'term : term MODULO factor'
-
-def p_term_times(p):
-    'term : term TIMES factor'
-
-def p_term_divide(p):
-    'term : term DIVIDE factor'
+    p[0] = sa.ExpressionMinus(p[1], p[3])
 
 def p_expression_term(p):
     'expression : term'
+    p[0] = sa.ExpressionTerm(p[1])
 
 def p_expression_range(p):
     'expression : expression RANGE term'
+    p[0] = sa.ExpressionRange(p[1], p[3])
+
+def p_term_modulo(p):
+    'term : term MODULO factor'
+    p[0] = sa.TermModulo(p[1], p[3])
+
+def p_term_times(p):
+    'term : term TIMES factor'
+    p[0] = sa.TermTimes(p[1], p[3])
+
+def p_term_divide(p):
+    'term : term DIVIDE factor'
+    p[0] = sa.TermDivide(p[1], p[3])
 
 def p_term_factor(p):
     'term : factor'
+    p[0] = sa.TermFactor(p[1])
 
 def p_factor_number(p):
     'factor : NUMBER'
+    p[0] = sa.FactorNumber(p[1])
 
 def p_factor_paren(p):
     'factor : LPAREN expression RPAREN'
+    p[0] = sa.FactorParen(p[2])
 
-def p_factor_boolean(p):
-    '''factor : TRUE
-              | FALSE'''
+def p_factor_boolean_true(p):
+    '''factor : TRUE'''
+    p[0] = sa.FactorBooleanTrue(p[1])
+
+def p_factor_boolean_false(p):
+    '''factor : FALSE'''
+    p[0] = sa.FactorBooleanFalse(p[1])
 
 def p_factor_id(p):
     'factor : ID'
+    p[0] = sa.FactorID(p[1])
 
 def p_error(p):
     print("Erro de sintaxe")
