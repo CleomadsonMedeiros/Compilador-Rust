@@ -31,31 +31,76 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitIdListFunctionCall(self, idListFunctionCall): pass
 
-  def visitParamListParamComma(self, paramListParamComma): pass
+  #RENNE
+  def visitParamListParams(self, paramListParams):
+    paramListParams.param.accept(self)
+    print(', ', end='') 
+    paramListParams.paramlist.accept(self)
+    
+  def visitParamListParam(self, paramListParam):
+    paramListParam.param.accept(self) 
 
-  def visitParamListParam(self, paramListParam): pass
+  def visitParamIdI32(self, paramIdI32):
+    print(paramIdI32.ID, end='')
+    print(': i32')
+    paramIdI32.I32.accept(self)
 
-  def visitParamIdI32(self, paramIDI32): pass
+  def visitParamIdF64(self, paramIdF64):
+    paramIdF64.ID.accept(self)
+    print(': f64')
+    paramIdF64.F64.accept(self)
 
-  def visitParamIdF64(self, paramIdF64): pass
+  def visitParamIdBool(self, paramIdBool):
+    paramIdBool.ID.accept(self)
+    print(': bool')
+    paramIdBool.BOOL.accept(self)
 
-  def visitParamIdBool(self, paramIdBool): pass
+  def visitStatementFunctionDef(self, statementFunctionDef):
+    statementFunctionDef.function_def.accept(self)
 
-  def visitStatementFunctionDef(self, statementFunctionDef): pass
+  def visitStatementFunctionCall(self, statementFunctionCall):
+    statementFunctionCall.function_call.accept(self)  
 
-  def visitStatementFunctionCall(self, statementFunctionCall): pass
+  def visitStatementExpressionStatement(self, statementExpressionStatement):
+    statementExpressionStatement.expression_statement.accept(self) 
+    
+  def visitStatementVarDeclaration(self, statementVarDeclaration):
+    statementVarDeclaration.var_declaration.accept(self)
 
-  def visitStatementExpressionStatement(self, statementExpressionStatement): pass
+  def visitStatementVarAssignment(self, statementVarAssignment):
+    statementVarAssignment.var_assignment.accept(self) 
+    
+  def visitStatementIf(self, statementIf):
+    print('if ', end='') 
+    statementIf.expression.accept(self)  
+    print(' {') 
+    statementIf.block_statement.accept(self) 
+    print('}') 
 
-  def visitStatementVarDeclaration(self, statementVarDeclaration): pass
+  def visitStatementIfElse(self, statementIfElse):
+    print('if ', end='')
+    statementIfElse.expression.accept(self)
+    print(' {')
+    statementIfElse.block_statement.accept(self)
+    print('}')
+    print('else {') 
+    statementIfElse.statement_else.accept(self)
+    print('}')
 
-  def visitStatementVarAssignment(self, statementVarAssignment): pass
+  def visitStatementElseBlock(self, statementElseBlock):
+    print('else {', end='') 
+    statementElseBlock.block_statement.accept(self) 
+    print('}') 
 
-  def visitStatementIf(self, statementIf): pass
+  def visitReturnTypeI32(self, returnTypeI32):
+    print(returnTypeI32.ID32)  
 
-  def visitStatementIfElse(self, statementIfElse): pass
+  def visitReturnTypeF64(self, returnTypeF64):
+    print(returnTypeF64.F64)  
 
-  def visitStatementElseBlock(self, statementElseBlock): pass
+  def visitReturnTypeBool(self, returnTypeBool):
+    print(returnTypeBool.BOOL)  
+  #RENNE
 
   def visitStatementElseIf(self, statementElseIf): pass
 
