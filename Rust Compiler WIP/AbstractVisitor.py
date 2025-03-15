@@ -217,3 +217,43 @@ class AbstractVisitor(metaclass=ABCMeta):
     
     @abstractmethod
     def visitError(self, error): pass
+    #RENNE
+    @abstractmethod
+    def visitParamListParamComma(self, paramListParamComma): pass
+
+    @abstractmethod
+    def visitParamListParam(self, paramListParam): pass
+
+    @abstractmethod
+    def visitParamIdI32(self, paramIDI32): pass
+
+    @abstractmethod
+    def visitParamIdF64(self, paramIdF64): pass
+
+    @abstractmethod
+    def visitParamIdBool(self, paramIdBool): pass
+
+    @abstractmethod
+    def visitStatementFunctionDef(self, statementFunctionDef): pass
+
+    @abstractmethod
+    def visitStatementFunctionCall(self, statementFunctionCall): pass
+
+    @abstractmethod
+    def visitStatementExpressionStatement(self, statementExpressionStatement): pass
+
+    @abstractmethod
+    def visitStatementVarDeclaration(self, statementVarDeclaration): pass
+
+    @abstractmethod
+    def visitStatementVarAssignment(self, statementVarAssignment): pass
+
+    @abstractmethod
+    def visitStatementIf(self, statementIf): pass
+
+    @abstractmethod
+    def visitStatementIfElse(self, statementIfElse): pass
+
+    @abstractmethod
+    def visitStatementElseBlock(self, statementElseBlock): pass
+    #END RENNE

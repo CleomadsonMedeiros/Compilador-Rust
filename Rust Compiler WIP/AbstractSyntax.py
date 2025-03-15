@@ -374,3 +374,120 @@ class FactorID(Factor):
     self.id = id
   def accept(self, visitor):
     return visitor.visitFactorID(self)
+  
+#RENNE  
+class Param(ABC):
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+   
+class ParamIdI32(Param):
+    def __init__(self, ID, I32):
+       self.idname = ID
+       self.typename = I32
+    
+    def accept(self, visitor):
+        return visitor.visitParamIdI32(self)
+    
+class ParamIdI64(Param):
+   def __init__(self, ID, F64):
+       self.idname = ID
+       self.typename = F64
+   def accept(self, visitor):
+        return visitor.visitParamIdI64(self)
+   
+class ParamIdBool(Param):
+   def __init__(self, ID, BOOL):
+      self.idname = ID
+      self.typename = BOOL
+   def accept(self, visitor):
+         return visitor.visitParamIdBool(self)
+   
+class ReturnType(ABC):
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+    
+class ReturnTypeI32(ReturnType):
+   def __init__(self, ID32):
+      self.typename = ID32
+   def accept(self, visitor):
+         return visitor.visitReturnTypeI32(self)
+   
+class ReturnTypeF64(ReturnType):
+   def __init__(self, F64):
+      self.typename = F64
+   def accept(self, visitor):
+      return visitor.visitReturnTypeF64(self)
+   
+class ReturnTypeBool(ReturnType):
+   def __init__(self, BOOL):
+      self.typename = BOOL
+   def accept(self, visitor):
+         return visitor.visitReturnTypeBool(self)
+   
+class ParamListParams(Param):
+   def __init__(self, param, param_list):
+      self.paramlist = param
+      self.paramlist = param_list
+   def accept(self, visitor):
+         return visitor.visitParamListParams(self)
+   
+class ParamListParam(Param):
+   def __init__(self, param):
+      self.param = param
+   def accept(self, visitor):
+         return visitor.visitParamListParam(self)
+   
+
+class StatementFunctionDef(Statement):
+    def __init__(self, function_def):
+        self.function_def = function_def
+    def accept(self, visitor):
+        return visitor.visitStatementFunctionDef(self)
+    
+class StatementFunctionCall(Statement):
+   def __init__(self, function_call):
+      self.function_call = function_call
+   def accept(self, visitor):
+         return visitor.visitStatementFunctionCall(self)
+   
+class StatementExpressionStatement(Statement):
+   def __init__(self, expression_statement):
+      self.expression_statement = expression_statement
+   def accept(self, visitor):
+         return visitor.visitStatementExpressionStatement(self)
+   
+class StatementVarDeclaration(Statement):
+   def __init__(self, var_declaration):
+      self.var_declaration = var_declaration
+   def accept(self, visitor):
+         return visitor.visitStatementVarDeclaration(self)
+
+class StatementVarAssignment(Statement):
+   def __init__(self, var_assignment):
+      self.var_assignment = var_assignment
+   def accept(self, visitor):
+         return visitor.visitStatementVarAssignment(self)
+   
+class StatementIf(Statement):
+    def __init__(self, expression, block_statement):
+        self.condition = expression
+        self.block = block_statement
+    def accept(self, visitor):
+        return visitor.visitStatementIf(self)
+    
+class StatementIfElse(Statement):
+    def __init__(self, expression, block_statement, statement_else):
+        self.condition = expression
+        self.if_block = block_statement
+        self.else_block = statement_else
+    def accept(self, visitor):
+        return visitor.visitStatementIfElse(self)
+    
+class StatementElseBlock(Statement):
+    def __init__(self, block_statement):
+        self.block = block_statement
+    def accept(self, visitor):
+        return visitor.visitStatementElseBlock(self)
+#RENNE END
