@@ -375,7 +375,6 @@ class FactorID(Factor):
   def accept(self, visitor):
     return visitor.visitFactorID(self)
   
-#RENNE  
 class Param(ABC):
     @abstractmethod
     def accept(self, visitor):
@@ -438,7 +437,6 @@ class ParamListParam(Param):
       self.param = param
    def accept(self, visitor):
          return visitor.visitParamListParam(self)
-   
 
 class StatementFunctionDef(Statement):
     def __init__(self, function_def):
@@ -490,4 +488,11 @@ class StatementElseBlock(Statement):
         self.block = block_statement
     def accept(self, visitor):
         return visitor.visitStatementElseBlock(self)
-#RENNE END
+    
+class StatementElseIfWithElse(Statement):
+    def __init__(self, expression, block_statement, statement_else):
+        self.condition = expression
+        self.block = block_statement
+        self.else_block = statement_else
+    def accept(self, visitor):
+        return visitor.visitStatementElseIfWithElse(self)

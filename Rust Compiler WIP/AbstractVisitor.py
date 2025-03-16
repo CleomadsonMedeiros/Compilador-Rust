@@ -217,7 +217,7 @@ class AbstractVisitor(metaclass=ABCMeta):
     
     @abstractmethod
     def visitError(self, error): pass
-    #RENNE
+
     @abstractmethod
     def visitParamListParamComma(self, paramListParamComma): pass
 
@@ -256,4 +256,3 @@ class AbstractVisitor(metaclass=ABCMeta):
 
     @abstractmethod
     def visitStatementElseBlock(self, statementElseBlock): pass
-    #END RENNE

@@ -65,7 +65,6 @@ def p_id_list_function_call(p):
     'id_list : function_call'
     p[0] = sa.IdListIdNumIdList(p[1])
     
-#RENNE
 def p_param_list_params(p):
     'param_list : param COMMA param_list'
     p[0] = sa.ParamListParams(p[1], p[3])
@@ -126,47 +125,55 @@ def p_statement_if_else(p):
     'statement : IF expression block_statement statement_else'
     p[0] = sa.StatementIfElse(p[2], p[3], p[4])
 
-
 def p_statement_else_block(p):
     'statement_else : ELSE block_statement'
     p[0] = sa.StatementElseBlock(p[2])
 
-#end RENNE
-
 def p_statement_else_if_with_else(p):
     'statement_else_if : IF expression block_statement statement_else'
+    p[0] = sa.StatementElseIfWithElse(p[2], p[3], p[4])
 
 def p_statement_while_statement(p):
     'statement : while_statement'
+    p[0] = sa.StatementWhileStatement(p[1])
 
 def p_statement_return_statement(p):
     'statement : return_statement'
+    p[0] = sa.StatementReturnStatement(p[1])
 
 def p_statement_for_statement(p):
     'statement : for_statement'
+    p[0] = sa.StatementForStatement(p[1])
 
 def p_statement_block_statement(p):
     'statement : block_statement'
+    p[0] = sa.StatementBlockStatement(p[1])
 #endregion
 
 #region Operadores Relacionais
 def p_condition_notequal(p):
     'expression : expression NOTEQUAL condition'
+    p[0] = sa.ConditionNotEqual(p[1], p[3])
 
 def p_condition_greaterequal(p):
     'expression : expression GREATEREQUAL condition'
+    p[0] = sa.ConditionGreaterEqual(p[1], p[3])
 
 def p_condition_lessequal(p):
     'expression : expression LESSEQUAL condition'
+    p[0] = sa.ConditionLessEqual(p[1], p[3])
 
 def p_condition_greater(p):
     'expression : expression GREATER condition'
+    p[0] = sa.ConditionGreater(p[1], p[3])
 
 def p_condition_less(p):
     'expression : expression LESS condition'
+    p[0] = sa.ConditionLess(p[1], p[3])
 
 def p_condition_equals(p):
     'expression : expression EQUALS condition'
+    p[0] = sa.ConditionEquals(p[1], p[3])
 #endregion
 
 #region Operadores Logicos

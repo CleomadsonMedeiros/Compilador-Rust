@@ -31,7 +31,6 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitIdListFunctionCall(self, idListFunctionCall): pass
 
-  #RENNE
   def visitParamListParams(self, paramListParams):
     paramListParams.param.accept(self)
     print(', ', end='') 
@@ -100,7 +99,6 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitReturnTypeBool(self, returnTypeBool):
     print(returnTypeBool.BOOL)  
-  #RENNE
 
   def visitStatementElseIf(self, statementElseIf): pass
 
