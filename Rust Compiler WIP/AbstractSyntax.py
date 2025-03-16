@@ -12,21 +12,41 @@ class MainF():
     self.blockStatement = blockStatement
   def accept(self, visitor):
     return visitor.visitMainFunction(self)
+  
+class Statement(ABC):
+  @abstractmethod
+  def accept(self):
+    pass
 
-class StatementListStatement():
+class FunctionDef(ABC):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class FunctionCall(ABC):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class IdList(ABC):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class StatementListStatement(Statement):
   def __init__(self, statement):
     self.statement = statement
   def accept(self, visitor):
     return visitor.visitStatementListStatement(self)
 
-class StatementListStatementStatementList():
+class StatementListStatementStatementList(Statement):
   def __init__(self, statement, statementList):
     self.statement = statement
     self.statementList = statementList
   def accept(self, visitor):
     return visitor.visitStatementList(self)
 
-class DefFunction():
+class DefFunction(FunctionDef):
   def __init__(self, id, paramList, returnType, blockStatement):
     self.id = id
     self.paramList = paramList
@@ -35,45 +55,40 @@ class DefFunction():
   def accept(self, visitor):
     return visitor.visitDefFunction(self)
 
-class DefFunctionUnit():
+class DefFunctionUnit(FunctionDef):
   def __init__(self, id, blockStatement):
     self.id = id
     self.blockStatement = blockStatement
   def accept(self, visitor):
     return visitor.visitDefFunctionUnit(self)
 
-class FunctionCall():
+class FunctionCall(FunctionCall):
   def __init__(self, id):
     self.id = id
   def accept(self, visitor):
     return visitor.visitFunctionCall(self)
 
-class FunctionCallIdList():
+class FunctionCallIdList(FunctionCall):
   def __init__(self, id, idList):
     self.id = id
     self.idList = idList
   def accept(self, visitor):
     return visitor.visitFunctionCallIdList(self)
 
-class IdListIdNumIdList():
+class IdListIdNumIdList(IdList):
   def __init__(self, idNum, idList):
     self.idNum = idNum
     self.idList = idList
   def accept(self, visitor):
     return visitor.visitIdListIdNumIdList()
 
-class IdListIdNumFunctionCall():
+class IdListIdNumFunctionCall(IdList):
   def __init__(self, idNumFunctionCall):
     self.idNumFunctionCall = idNumFunctionCall
   def accept(self, visitor):
     return visitor.visitIdListIdNumFunctionCall(self)
 
 class Expression(ABC):
-  @abstractmethod
-  def accept(self):
-    pass
-
-class Statement(ABC):
   @abstractmethod
   def accept(self):
     pass
