@@ -12,21 +12,41 @@ class MainF():
     self.blockStatement = blockStatement
   def accept(self, visitor):
     return visitor.visitMainFunction(self)
+  
+class Statement(ABC):
+  @abstractmethod
+  def accept(self):
+    pass
 
-class StatementListStatement():
+class FunctionDef(ABC):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class FunctionCall(ABC):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class IdList(ABC):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class StatementListStatement(Statement):
   def __init__(self, statement):
     self.statement = statement
   def accept(self, visitor):
     return visitor.visitStatementListStatement(self)
 
-class StatementList():
+class StatementListStatementStatementList(Statement):
   def __init__(self, statement, statementList):
     self.statement = statement
     self.statementList = statementList
   def accept(self, visitor):
     return visitor.visitStatementList(self)
 
-class DefFunction():
+class DefFunction(FunctionDef):
   def __init__(self, id, paramList, returnType, blockStatement):
     self.id = id
     self.paramList = paramList
@@ -35,34 +55,34 @@ class DefFunction():
   def accept(self, visitor):
     return visitor.visitDefFunction(self)
 
-class DefFunctionUnit():
+class DefFunctionUnit(FunctionDef):
   def __init__(self, id, blockStatement):
     self.id = id
     self.blockStatement = blockStatement
   def accept(self, visitor):
     return visitor.visitDefFunctionUnit(self)
 
-class FunctionCall():
+class FunctionCall(FunctionCall):
   def __init__(self, id):
     self.id = id
   def accept(self, visitor):
     return visitor.visitFunctionCall(self)
 
-class FunctionCallIdList():
+class FunctionCallIdList(FunctionCall):
   def __init__(self, id, idList):
     self.id = id
     self.idList = idList
   def accept(self, visitor):
     return visitor.visitFunctionCallIdList(self)
 
-class IdListIdNumIdList():
+class IdListIdNumIdList(IdList):
   def __init__(self, idNum, idList):
     self.idNum = idNum
     self.idList = idList
   def accept(self, visitor):
     return visitor.visitIdListIdNumIdList()
 
-class IdListIdNumFunctionCall():
+class IdListIdNumFunctionCall(IdList):
   def __init__(self, idNumFunctionCall):
     self.idNumFunctionCall = idNumFunctionCall
   def accept(self, visitor):
@@ -70,51 +90,24 @@ class IdListIdNumFunctionCall():
 
 class Expression(ABC):
   @abstractmethod
-  def print(self):
-    pass
-
-class Statement(ABC):
-  @abstractmethod
-  def print(self):
+  def accept(self):
     pass
 
 class Condition(ABC):
   @abstractmethod
-  def print(self):
+  def accept(self):
     pass
 
 class VarDeclaration(ABC):
   @abstractmethod
-  def print(self):
+  def accept(self):
     pass
 
-class VarAssignment(ABC):
+class AbstractVarAssignment(ABC):
   @abstractmethod
-  def print(self):
+  def accept(self):
     pass
 
-class StatementElseIf(Statement):
-  def __init__(self, expression, statement_else_if):
-    self.expression = expression
-    self.statement_else_if = statement_else_if
-  def accept(self, visitor):
-    return visitor.visitStatementElseIf(self)
-  
-class StatementElseIfBlock(Statement):
-  def __init__(self, expression, block_statement):
-    self.expression = expression
-    self.block_statement = block_statement
-  def accept(self, visitor):
-    return visitor.visitStatementElseIfBlock(self)
-  
-class StatementIfWithElse(Statement):
-  def __init__(self, expression, block_statement, statement_else):
-    self.expression = expression
-    self.block_statement = block_statement
-    self.statement_else = statement_else
-  def accept(self, visitor):
-    return visitor.visitStatementIfWithElse(self)
-  
 class StatementWhileStatement(Statement):
   def __init__(self, while_statement):
     self.while_statement = while_statement
@@ -241,12 +234,41 @@ class VarDeclarationParam(VarDeclaration):
   def accept(self, visitor):
     return visitor.visitVarDeclarationParam(self)
 
-class VarAssignment(VarAssignment):
+class VarAssignment(AbstractVarAssignment):
   def __init__(self, id, expression):
     self.id = id
     self.expression = expression
   def accept(self, visitor):
     return visitor.visitVarAssignment(self)
+  
+class StatementIf(Statement):
+    def __init__(self, expression, block_statement):
+        self.condition = expression
+        self.block = block_statement
+    def accept(self, visitor):
+        return visitor.visitStatementIf(self)
+    
+class StatementIfElse(Statement):
+    def __init__(self, expression, block_statement, statement_else):
+        self.condition = expression
+        self.if_block = block_statement
+        self.else_block = statement_else
+    def accept(self, visitor):
+        return visitor.visitStatementIfElse(self)
+    
+class StatementElseBlock(Statement):
+    def __init__(self, block_statement):
+        self.block = block_statement
+    def accept(self, visitor):
+        return visitor.visitStatementElseBlock(self)
+    
+class StatementElseIfWithElse(Statement):
+    def __init__(self, expression, block_statement, statement_else):
+        self.condition = expression
+        self.block = block_statement
+        self.else_block = statement_else
+    def accept(self, visitor):
+        return visitor.visitStatementElseIfWithElse(self)
     
 class WhileStatement(Statement):
   def __init__(self, expression, block_statement):
@@ -304,7 +326,7 @@ class ExpressionRange(Expression):
     
 class Term(ABC):
   @abstractmethod
-  def print(self):
+  def accept(self):
     pass
 
 class TermModulo(Term):
@@ -336,7 +358,7 @@ class TermFactor(Term):
 
 class Factor(ABC):
   @abstractmethod
-  def print(self):
+  def accept(self):
     pass
 
 class FactorNumber(Factor):
@@ -388,12 +410,12 @@ class ParamIdI32(Param):
     def accept(self, visitor):
         return visitor.visitParamIdI32(self)
     
-class ParamIdI64(Param):
+class ParamIdF64(Param):
    def __init__(self, ID, F64):
        self.idname = ID
        self.typename = F64
    def accept(self, visitor):
-        return visitor.visitParamIdI64(self)
+        return visitor.visitParamIdF64(self)
    
 class ParamIdBool(Param):
    def __init__(self, ID, BOOL):
@@ -467,32 +489,3 @@ class StatementVarAssignment(Statement):
       self.var_assignment = var_assignment
    def accept(self, visitor):
          return visitor.visitStatementVarAssignment(self)
-   
-class StatementIf(Statement):
-    def __init__(self, expression, block_statement):
-        self.condition = expression
-        self.block = block_statement
-    def accept(self, visitor):
-        return visitor.visitStatementIf(self)
-    
-class StatementIfElse(Statement):
-    def __init__(self, expression, block_statement, statement_else):
-        self.condition = expression
-        self.if_block = block_statement
-        self.else_block = statement_else
-    def accept(self, visitor):
-        return visitor.visitStatementIfElse(self)
-    
-class StatementElseBlock(Statement):
-    def __init__(self, block_statement):
-        self.block = block_statement
-    def accept(self, visitor):
-        return visitor.visitStatementElseBlock(self)
-    
-class StatementElseIfWithElse(Statement):
-    def __init__(self, expression, block_statement, statement_else):
-        self.condition = expression
-        self.block = block_statement
-        self.else_block = statement_else
-    def accept(self, visitor):
-        return visitor.visitStatementElseIfWithElse(self)

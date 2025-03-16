@@ -12,13 +12,13 @@ def p_main_function(p):
     'main_function : FN MAIN LPAREN RPAREN block_statement'
     p[0] = sa.MainF(p[5])
 
-def p_statement_list(p):
-    '''statement_list : statement
-                    | statement statement_list'''
-    if len(p) == 2:
-        p[0] = sa.StatementListStatement(p[1])
-    elif len(p) == 3:
-        p[0] = sa.StatementList(p[0], p[1])
+def p_statement_list_statement(p):
+    '''statement_list : statement'''
+    p[0] = sa.StatementListStatement(p[1])
+
+def p_statement_list_statement_statement_list(p):
+    '''statement_list : statement statement_list'''
+    p[0] = sa.StatementListStatementStatementList(p[1], p[2])
     
 # region funções
 def p_def_function_with_params(p):
@@ -59,11 +59,11 @@ def p_id_list_id(p):
 
 def p_id_list_number(p):
     'id_list : NUMBER'
-    p[0] = sa.IdListIdNumIdList(p[1])
+    p[0] = sa.IdListIdNumIdList(p[1], None)
 
 def p_id_list_function_call(p):
     'id_list : function_call'
-    p[0] = sa.IdListIdNumIdList(p[1])
+    p[0] = sa.IdListIdNumIdList(p[1], None)
     
 def p_param_list_params(p):
     'param_list : param COMMA param_list'
@@ -79,7 +79,7 @@ def p_param_id_i32(p):
 
 def p_param_id_f64(p):
     'param : ID COLON F64'
-    p[0] = sa.ParamIdI64(p[1], p[3])
+    p[0] = sa.ParamIdF64(p[1], p[3])
 
 def p_param_id_bool(p):
     'param : ID COLON BOOL'
@@ -182,11 +182,11 @@ def p_expression_and(p):
     'expression : expression AND condition'
     p[0] = sa.ExpressionAnd(p[1], p[3])
 
-def p_expression_and(p):
+def p_expression_or(p):
     'expression : expression OR condition'
     p[0] = sa.ExpressionOr(p[1], p[3])
 
-def p_expression_and(p):
+def p_expression_not(p):
     'expression : NOT condition'
     p[0] = sa.ExpressionNot(p[2])
 
@@ -323,5 +323,3 @@ resultado = parser.parse('''
     }     
 ''')
 print(resultado)
-result = parser.parse(debug = True)
-print(result)

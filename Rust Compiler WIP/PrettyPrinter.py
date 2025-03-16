@@ -3,33 +3,41 @@ from AbstractVisitor import AbstractVisitor
 class PrettyPrinter(AbstractVisitor):
   def visitProgram(self, program): pass
 
-  def visitMainFunction(self, mainFunction): pass
+  def visitMainFunction(self, mainFunction): 
+    print('fn main()')
+    mainFunction.blockStatement.accept(self)
   
-  def visitStatementListStatement(self, statementListStatement): pass
+  def visitStatementListStatement(self, statementListStatement):
+    statementListStatement.statement.accept(self)
 
-  def visitStatementList(self, statementList): pass
+  def visitStatementListStatementStatementList(self, statementListStatementStatementList):
+    statementListStatementStatementList.statement.accept(self)
+    statementListStatementStatementList.statementList.accept(self)
 
-  def visitDefFunction(self, defFunction): pass
+  def visitDefFunction(self, defFunction):
+    print('fn ', end='')
+    defFunction.id.accept(self)
+    print('(', end='')
+    defFunction.paramList.accept(self)
+    print(') -> ', end='')
+    defFunction.returnType.accept(self)
+    defFunction.blockStatement.accept(self)
 
-  def visitDefFunctionUnit(self, defFunctionUnit): pass
+  def visitDefFunctionUnit(self, defFunctionUnit):
+    print('fn ', end='')
+    defFunctionUnit.id.accept(self)
+    print('()', end='')
+    defFunctionUnit.blockStatement.accept(self)
 
-  def visitFunctionCallSemicolon(self, functionCallSemicolon): pass
+  def visitFunctionCall(self, functionCall):
+    functionCall.id.accept(self)
+    print('()')
 
-  def visitFunctionCallIdListSemicolon(self, functionCallIdListSemicolon): pass
-
-  def visitFunctionCall(self, functionCall): pass
-
-  def visitFunctionCallIdList(self, functionCallIdList): pass
-
-  def visitIdListIdComma(self, idListIdComma): pass
-
-  def visitIdListNumberComma(self, idListNumberComma): pass
-
-  def visitIdListId(self, idListIdComma): pass
-
-  def visitIdListNumber(self, idListNumber): pass
-
-  def visitIdListFunctionCall(self, idListFunctionCall): pass
+  def visitFunctionCallIdList(self, functionCallIdList):
+    functionCallIdList.id.accept(self)
+    print('(', end='')
+    functionCallIdList.idList.accept(self)
+    print(')')
 
   def visitParamListParams(self, paramListParams):
     paramListParams.param.accept(self)
@@ -70,26 +78,25 @@ class PrettyPrinter(AbstractVisitor):
     statementVarAssignment.var_assignment.accept(self) 
     
   def visitStatementIf(self, statementIf):
-    print('if ', end='') 
-    statementIf.expression.accept(self)  
-    print(' {') 
-    statementIf.block_statement.accept(self) 
-    print('}') 
+    print('if ', end='')
+    statementIf.expression.accept(self)
+    statementIf.block_statement.accept(self)
 
   def visitStatementIfElse(self, statementIfElse):
     print('if ', end='')
     statementIfElse.expression.accept(self)
-    print(' {')
     statementIfElse.block_statement.accept(self)
-    print('}')
-    print('else {') 
     statementIfElse.statement_else.accept(self)
-    print('}')
 
   def visitStatementElseBlock(self, statementElseBlock):
-    print('else {', end='') 
-    statementElseBlock.block_statement.accept(self) 
-    print('}') 
+    print('else ', end='')
+    statementElseBlock.block_statement.accept(self)
+
+  def visitStatementIfWithElse(self, statementIfWithElse):
+    print('if ', end='')
+    statementIfWithElse.expression.accept(self)
+    statementIfWithElse.block_statement.accept(self)
+    statementIfWithElse.statement_else.accept(self)
 
   def visitReturnTypeI32(self, returnTypeI32):
     print(returnTypeI32.ID32)  
@@ -100,31 +107,47 @@ class PrettyPrinter(AbstractVisitor):
   def visitReturnTypeBool(self, returnTypeBool):
     print(returnTypeBool.BOOL)  
 
-  def visitStatementElseIf(self, statementElseIf): pass
-
-  def visitStatementElseIfBlock(self, statementElseIfBlock): pass
-
-  def visitStatementIfWithElse(self, statementIfWithElse): pass
-
-  def visitStatementWhileStatement(self, whileStatement): pass
+  def visitStatementWhileStatement(self, whileStatement):
+    whileStatement.while_statement.accept(self)
   
-  def visitStatementReturnStatement(self, returnStatement): pass
+  def visitStatementReturnStatement(self, returnStatement):
+    returnStatement.return_statement.accept(self)
     
-  def visitStatementForStatement(self, forStatement): pass      
+  def visitStatementForStatement(self, forStatement):
+    forStatement.for_statement.accept(self)    
   
-  def visitStatementBlockStatement(self, blockStatement): pass
+  def visitStatementBlockStatement(self, blockStatement):
+    blockStatement.accept(self)
   
-  def visitConditionNotEqual(self, notEqual): pass
+  def visitConditionNotEqual(self, conditionNotEqual):
+    conditionNotEqual.expression.accept(self)
+    print(' != ', end='')
+    conditionNotEqual.condition.accept(self)
     
-  def visitConditionGreaterEqual(self, greaterEqual): pass      
+  def visitConditionGreaterEqual(self, conditionGreaterEqual):
+    conditionGreaterEqual.expression.accept(self)
+    print(' >= ', end='')
+    conditionGreaterEqual.condition.accept(self)      
   
-  def visitConditionLessEqual(self, lessEqual): pass
+  def visitConditionLessEqual(self, conditionLessEqual):
+    conditionLessEqual.expression.accept(self)
+    print(' <= ', end='')
+    conditionLessEqual.condition.accept(self)
   
-  def visitConditionGreater(self, greater): pass
+  def visitConditionGreater(self, conditionGreater):
+    conditionGreater.expression.accept(self)
+    print(' > ', end='')
+    conditionGreater.condition.accept(self)
     
-  def visitConditionLess(self, less): pass
+  def visitConditionLess(self, conditionLess):
+    conditionLess.expression.accept(self)
+    print(' < ', end='')
+    conditionLess.condition.accept(self)
         
-  def visitConditionEquals(self, equals): pass
+  def visitConditionEquals(self, conditionEquals):
+    conditionEquals.expression.accept(self)
+    print(' == ', end='')
+    conditionEquals.condition.accept(self)
     
   def visitExpressionAnd(self, expressionAnd):
     expressionAnd.expression.accept(self)
