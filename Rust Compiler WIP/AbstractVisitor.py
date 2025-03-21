@@ -26,8 +26,23 @@ class AbstractVisitor(metaclass=ABCMeta):
     @abstractmethod
     def visitFunctionCallIdList(self, functionCallIdList): pass
 
-    # @abstractmethod
-    # def visitIdListId(self, idListId): pass
+    @abstractmethod
+    def visitIdListIdComma(self, idListIdComma): pass
+
+    @abstractmethod
+    def visitIdListNumComma(self, idListNumComma): pass
+
+    @abstractmethod
+    def visitIdListFunctionCallComma(self, idListFunctionCallComma): pass
+
+    @abstractmethod
+    def visitIdListId(self, idListId): pass
+
+    @abstractmethod
+    def visitIdListNum(self, idListNum): pass
+
+    @abstractmethod
+    def visitIdListFunctionCall(self, idListFunctionCall): pass
 
     @abstractmethod
     def visitParamListParam(self, paramListParam): pass

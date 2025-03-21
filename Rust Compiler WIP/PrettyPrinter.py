@@ -26,19 +26,43 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitDefFunctionUnit(self, defFunctionUnit):
     print('fn ', end='')
-    print(defFunctionUnit.id)
-    print('()', end='')
+    print(defFunctionUnit.id, end='')
+    print('()')
     defFunctionUnit.blockStatement.accept(self)
 
   def visitFunctionCall(self, functionCall):
-    print(functionCall.id)
+    print(functionCall.id, end='')
     print('()')
 
   def visitFunctionCallIdList(self, functionCallIdList):
-    print(functionCallIdList.id)
+    print(functionCallIdList.id, end='')
     print('(', end='')
     functionCallIdList.idList.accept(self)
     print(')')
+
+  def visitIdListIdComma(self, idListIdComma):
+    print(idListIdComma.id, end='')
+    print(', ', end='')
+    idListIdComma.idList.accept(self)
+
+  def visitIdListNumComma(self, idListNumComma):
+    print(idListNumComma.num, end='')
+    print(', ', end='')
+    idListNumComma.idList.accept(self)
+
+  def visitIdListFunctionCallComma(self, idListFunctionCallComma):
+    idListFunctionCallComma.function.accept(self)
+    print(', ', end='')
+    idListFunctionCallComma.idList.accept(self)
+
+  def visitIdListId(self, idListId):
+    print(idListId.id)
+
+  def visitIdListNum(self, idListNum):
+    print(idListNum.num)
+
+  def visitIdListFunctionCall(self, idListFunctionCall):
+    idListFunctionCall.function.accept(self)
 
   def visitParamListParams(self, paramListParams):
     paramListParams.param.accept(self)
@@ -50,15 +74,15 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitParamIdI32(self, paramIdI32):
     print(paramIdI32.id, end='')
-    print(': i32')
+    print(': i32', end="")
 
   def visitParamIdF64(self, paramIdF64):
-    print(paramIdF64.id)
-    print(': f64')
+    print(paramIdF64.id, end='')
+    print(': f64', end="")
 
   def visitParamIdBool(self, paramIdBool):
-    print(paramIdBool.id)
-    print(': bool')
+    print(paramIdBool.id, end='')
+    print(': bool', end="")
 
   def visitStatementFunctionDef(self, statementFunctionDef):
     statementFunctionDef.function_def.accept(self)
@@ -97,13 +121,13 @@ class PrettyPrinter(AbstractVisitor):
     statementIfWithElse.statement_else.accept(self)
 
   def visitReturnTypeI32(self, returnTypeI32):
-    print(returnTypeI32.id32)  
+    print(returnTypeI32.id32, end='')  
 
   def visitReturnTypeF64(self, returnTypeF64):
-    print(returnTypeF64.f64)  
+    print(returnTypeF64.f64, end='')  
 
   def visitReturnTypeBool(self, returnTypeBool):
-    print(returnTypeBool.bool)  
+    print(returnTypeBool.bool, end='')  
 
   def visitStatementWhileStatement(self, whileStatement):
     whileStatement.while_statement.accept(self)
@@ -170,37 +194,37 @@ class PrettyPrinter(AbstractVisitor):
   
   def visitVarDeclarationMutId(self, varDeclaration):
     print('let mut ', end='')
-    print(varDeclaration.id)
+    print(varDeclaration.id, end='')
     print(' = ', end='')
     varDeclaration.expression.accept(self)
-    print(';', end='') 
+    print(';') 
   
   def visitVarDeclarationMutParam(self, varDeclarationMutParam):
     print('let mut ', end='')
     varDeclarationMutParam.param.accept(self)
     print(' = ', end='')
     varDeclarationMutParam.expression.accept(self)
-    print(';', end='')
+    print(';')
 
   def visitVarDeclarationId(self, varDeclarationId):
     print('let ', end='')
-    print(varDeclarationId.id)
+    print(varDeclarationId.id, end="")
     print(' = ', end='')
     varDeclarationId.expression.accept(self)
-    print(';', end='')
+    print(';')
 
   def visitVarDeclarationParam(self, varDeclarationParam):
     print('let ', end='')
     varDeclarationParam.param.accept(self)
     print(' = ', end='')
     varDeclarationParam.expression.accept(self)
-    print(';', end='')
+    print(';')
   
   def visitVarAssignment(self, varAssignment):
     print(varAssignment.id)
     print(' = ', end='')
     varAssignment.expression.accept(self)
-    print(';', end='')
+    print(';')
   
   def visitWhileStatement(self, whileStatement):
     print('while ', end='')
@@ -209,7 +233,7 @@ class PrettyPrinter(AbstractVisitor):
   
   def visitForStatement(self, forStatement):
     print('for ', end='')
-    print(forStatement.id)
+    print(forStatement.id, end='')
     print(' in ', end='')
     forStatement.expression.accept(self)
     forStatement.block_statement.accept(self)  
@@ -217,7 +241,7 @@ class PrettyPrinter(AbstractVisitor):
   def visitReturnStatement(self, returnStatement):
     print('return ', end='')
     returnStatement.expression.accept(self)
-    print(';', end='')   
+    print(';')   
   
   def visitBlockStatement(self, blockStatement):
     print('{')
@@ -261,7 +285,7 @@ class PrettyPrinter(AbstractVisitor):
     termFactor.factor.accept(self)   
     
   def visitFactorNumber(self, factorNumber):
-    print(factorNumber.number)
+    print(factorNumber.number, end="")
     
   def visitFactorParen(self, factorParen):
     print('(', end='')
@@ -269,12 +293,12 @@ class PrettyPrinter(AbstractVisitor):
     print(')')
   
   def visitFactorBooleanTrue(self, factorBooleanTrue):
-    print(factorBooleanTrue.true)
+    print(factorBooleanTrue.true, end="")
 
   def visitFactorBooleanFalse(self, factorBooleanFalse):
-    print(factorBooleanFalse.false)
+    print(factorBooleanFalse.false, end="")
     
   def visitFactorID(self, factorID):
-    print(factorID.id)
+    print(factorID.id, end="")
   
   def visitError(self, error): pass

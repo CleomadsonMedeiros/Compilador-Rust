@@ -48,23 +48,27 @@ def p_function_call_with_params(p):
     
 def p_id_list_id_comma(p):
     'id_list : ID COMMA id_list'
-    p[0] = sa.IdListIdNumIdList(p[1], p[3])
+    p[0] = sa.IdListIdComma(p[1], p[3])
 
 def p_id_list_number_comma(p):
     'id_list : NUMBER COMMA id_list'
-    p[0] = sa.IdListIdNumIdList(p[1], p[3])
+    p[0] = sa.IdListNumComma(p[1], p[3])
+
+def p_id_list_function_call_comma(p):
+    'id_list : function_call COMMA id_list'
+    p[0] = sa.IdListFunctionCallComma(p[1], p[3])
 
 def p_id_list_id(p):
     'id_list : ID'
-    p[0] = sa.IdListIdNumFunctionCall(p[1])
+    p[0] = sa.IdListFunctionCall(p[1])
 
 def p_id_list_number(p):
     'id_list : NUMBER'
-    p[0] = sa.IdListIdNumIdList(p[1], None)
+    p[0] = sa.IdListNum(p[1])
 
 def p_id_list_function_call(p):
     'id_list : function_call'
-    p[0] = sa.IdListIdNumIdList(p[1], None)
+    p[0] = sa.IdListFunctionCall(p[1])
     
 def p_param_list_params(p):
     'param_list : param COMMA param_list'

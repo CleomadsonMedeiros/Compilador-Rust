@@ -75,18 +75,44 @@ class FunctionCallIdList(FunctionCall):
   def accept(self, visitor):
     return visitor.visitFunctionCallIdList(self)
 
-class IdListIdNumIdList(IdList):
-  def __init__(self, idNum, idList):
-    self.idNum = idNum
+class IdListIdComma(IdList):
+  def __init__(self, id, idList):
+    self.id = id
     self.idList = idList
   def accept(self, visitor):
-    return visitor.visitIdListIdNumIdList(self)
-
-class IdListIdNumFunctionCall(IdList):
-  def __init__(self, idNumFunctionCall):
-    self.idNumFunctionCall = idNumFunctionCall
+    return visitor.visitIdListIdComma(self)
+  
+class IdListNumComma(IdList):
+  def __init__(self, num, idList):
+    self.num = num
+    self.idList = idList
   def accept(self, visitor):
-    return visitor.visitIdListIdNumFunctionCall(self)
+    return visitor.visitIdListNumComma(self)
+  
+class IdListFunctionCallComma(IdList):
+  def __init__(self, function, idList):
+    self.function = function
+    self.idList = idList
+  def accept(self, visitor):
+    return visitor.visitIdListFunctionCallComma(self)
+
+class IdListId(IdList):
+  def __init__(self, id):
+    self.id = id
+  def accept(self, visitor):
+    return visitor.visitIdListId(self)
+  
+class IdListNum(IdList):
+  def __init__(self, num):
+    self.num = num
+  def accept(self, visitor):
+    return visitor.visitIdListNum(self)
+  
+class IdListFunctionCall(IdList):
+  def __init__(self, function):
+    self.function = function
+  def accept(self, visitor):
+    return visitor.visitIdListFunctionCall(self)
 
 class Expression(metaclass=ABCMeta):
   @abstractmethod
