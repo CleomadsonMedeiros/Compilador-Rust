@@ -38,7 +38,7 @@ class PrettyPrinter(AbstractVisitor):
     print(functionCallIdList.id, end='')
     print('(', end='')
     functionCallIdList.idList.accept(self)
-    print(')')
+    print(')', end='')
 
   def visitIdListIdComma(self, idListIdComma):
     print(idListIdComma.id, end='')
@@ -56,10 +56,10 @@ class PrettyPrinter(AbstractVisitor):
     idListFunctionCallComma.idList.accept(self)
 
   def visitIdListId(self, idListId):
-    print(idListId.id)
+    print(idListId.id, end='')
 
   def visitIdListNum(self, idListNum):
-    print(idListNum.num)
+    print(idListNum.num,end='')
 
   def visitIdListFunctionCall(self, idListFunctionCall):
     idListFunctionCall.function.accept(self)
@@ -221,7 +221,7 @@ class PrettyPrinter(AbstractVisitor):
     print(';')
   
   def visitVarAssignment(self, varAssignment):
-    print(varAssignment.id)
+    print(varAssignment.id, end="")
     print(' = ', end='')
     varAssignment.expression.accept(self)
     print(';')
