@@ -11,8 +11,8 @@ class AbstractVisitor(metaclass=ABCMeta):
     @abstractmethod
     def visitStatementListStatement(self, statementListStatement): pass
 
-    @abstractmethod
-    def visitStatementList(self, statementList): pass
+    # @abstractmethod
+    # def visitStatementList(self, statementList): pass
 
     @abstractmethod
     def visitDefFunction(self, defFunction): pass
@@ -26,8 +26,8 @@ class AbstractVisitor(metaclass=ABCMeta):
     @abstractmethod
     def visitFunctionCallIdList(self, functionCallIdList): pass
 
-    @abstractmethod
-    def visitIdListId(self, idListId): pass
+    # @abstractmethod
+    # def visitIdListId(self, idListId): pass
 
     @abstractmethod
     def visitParamListParam(self, paramListParam): pass
@@ -74,11 +74,11 @@ class AbstractVisitor(metaclass=ABCMeta):
     @abstractmethod
     def visitStatementElseBlock(self, statementElseBlock): pass
 
-    @abstractmethod
-    def visitStatementElseIf(self, statementElseIf): pass
+    # @abstractmethod
+    # def visitStatementElseIf(self, statementElseIf): pass
 
-    @abstractmethod
-    def visitStatementElseIfBlock(self, statementElseIfBlock): pass
+    # @abstractmethod
+    # def visitStatementElseIfBlock(self, statementElseIfBlock): pass
 
     @abstractmethod
     def visitStatementIfWithElse(self, statementIfWithElse): pass

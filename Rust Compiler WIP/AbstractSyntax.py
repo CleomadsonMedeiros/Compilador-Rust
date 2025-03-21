@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from abc import ABC
+from abc import ABCMeta
 
 class Program():
   def __init__(self, main):
@@ -13,22 +13,22 @@ class MainF():
   def accept(self, visitor):
     return visitor.visitMainFunction(self)
   
-class Statement(ABC):
+class Statement(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
 
-class FunctionDef(ABC):
+class FunctionDef(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
 
-class FunctionCall(ABC):
+class FunctionCall(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
 
-class IdList(ABC):
+class IdList(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
@@ -44,7 +44,7 @@ class StatementListStatementStatementList(Statement):
     self.statement = statement
     self.statementList = statementList
   def accept(self, visitor):
-    return visitor.visitStatementList(self)
+    return visitor.visitStatementListStatementStatementList(self)
 
 class DefFunction(FunctionDef):
   def __init__(self, id, paramList, returnType, blockStatement):
@@ -80,7 +80,7 @@ class IdListIdNumIdList(IdList):
     self.idNum = idNum
     self.idList = idList
   def accept(self, visitor):
-    return visitor.visitIdListIdNumIdList()
+    return visitor.visitIdListIdNumIdList(self)
 
 class IdListIdNumFunctionCall(IdList):
   def __init__(self, idNumFunctionCall):
@@ -88,22 +88,22 @@ class IdListIdNumFunctionCall(IdList):
   def accept(self, visitor):
     return visitor.visitIdListIdNumFunctionCall(self)
 
-class Expression(ABC):
+class Expression(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
 
-class Condition(ABC):
+class Condition(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
 
-class VarDeclaration(ABC):
+class VarDeclaration(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
 
-class AbstractVarAssignment(ABC):
+class AbstractVarAssignment(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
@@ -135,7 +135,7 @@ class StatementBlockStatement(Statement):
 class ConditionNotEqual(Condition):
   def __init__(self, expression, condition):
     self.expression = expression
-    self.term = condition
+    self.condition = condition
   def accept(self, visitor):
     return visitor.visitConditionNotEqual(self)
 
@@ -242,9 +242,9 @@ class VarAssignment(AbstractVarAssignment):
     return visitor.visitVarAssignment(self)
   
 class StatementIf(Statement):
-    def __init__(self, expression, block_statement):
-        self.condition = expression
-        self.block = block_statement
+    def __init__(self, condition, block_statement):
+        self.condition = condition
+        self.block_statement = block_statement
     def accept(self, visitor):
         return visitor.visitStatementIf(self)
     
@@ -291,12 +291,6 @@ class ReturnStatement(Statement):
   def accept(self, visitor):
     return visitor.visitReturnStatement(self)
     
-class StatementBlockStatement(Statement):
-  def __init__(self, statementList):
-    self.statements = statementList
-  def accept(self, visitor):
-    return visitor.visitStatementBlockStatement(self)
-    
 class ExpressionPlus(Expression):
   def __init__(self, expression, term):
     self.expression = expression
@@ -324,7 +318,7 @@ class ExpressionRange(Expression):
   def accept(self, visitor):
     return visitor.visitExpressionRange(self)
     
-class Term(ABC):
+class Term(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
@@ -356,7 +350,7 @@ class TermFactor(Term):
   def accept(self, visitor):
     return visitor.visitTermFactor(self)
 
-class Factor(ABC):
+class Factor(metaclass=ABCMeta):
   @abstractmethod
   def accept(self):
     pass
@@ -397,60 +391,56 @@ class FactorID(Factor):
   def accept(self, visitor):
     return visitor.visitFactorID(self)
   
-class Param(ABC):
+class Param(metaclass=ABCMeta):
     @abstractmethod
     def accept(self, visitor):
         pass
    
 class ParamIdI32(Param):
-    def __init__(self, ID, I32):
-       self.idname = ID
-       self.typename = I32
-    
+    def __init__(self, id):
+       self.id = id
     def accept(self, visitor):
         return visitor.visitParamIdI32(self)
     
 class ParamIdF64(Param):
-   def __init__(self, ID, F64):
-       self.idname = ID
-       self.typename = F64
+   def __init__(self, id):
+       self.id = id
    def accept(self, visitor):
         return visitor.visitParamIdF64(self)
    
 class ParamIdBool(Param):
-   def __init__(self, ID, BOOL):
-      self.idname = ID
-      self.typename = BOOL
+   def __init__(self, id):
+      self.id = id
    def accept(self, visitor):
          return visitor.visitParamIdBool(self)
    
-class ReturnType(ABC):
+class ReturnType(metaclass=ABCMeta):
     @abstractmethod
     def accept(self, visitor):
         pass
     
 class ReturnTypeI32(ReturnType):
-   def __init__(self, ID32):
-      self.typename = ID32
+   def __init__(self, id32):
+      self.id32 = id32
    def accept(self, visitor):
          return visitor.visitReturnTypeI32(self)
    
 class ReturnTypeF64(ReturnType):
-   def __init__(self, F64):
-      self.typename = F64
+   def __init__(self, f64):
+      self.f64 = f64
    def accept(self, visitor):
       return visitor.visitReturnTypeF64(self)
    
 class ReturnTypeBool(ReturnType):
-   def __init__(self, BOOL):
-      self.typename = BOOL
+   def __init__(self, bool):
+      self.bool = bool
    def accept(self, visitor):
          return visitor.visitReturnTypeBool(self)
    
 class ParamListParams(Param):
    def __init__(self, param, param_list):
-      self.paramlist = param
-      self.paramlist = param_list
+      self.param = param
+      self.param_list = param_list
    def accept(self, visitor):
          return visitor.visitParamListParams(self)
    

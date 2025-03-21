@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 import AbstractSyntax as sa
 from ExpressionLanguageLex import tokens
+import PrettyPrinter as pp
 # Regras do analisador sintático (parser)
 
 # Pra executar apenas dentro da função main
@@ -75,15 +76,15 @@ def p_param_list_param(p):
 
 def p_param_id_i32(p):
     'param : ID COLON I32'
-    p[0] = sa.ParamIdI32(p[1], p[3])
+    p[0] = sa.ParamIdI32(p[1])
 
 def p_param_id_f64(p):
     'param : ID COLON F64'
-    p[0] = sa.ParamIdF64(p[1], p[3])
+    p[0] = sa.ParamIdF64(p[1])
 
 def p_param_id_bool(p):
     'param : ID COLON BOOL'
-    p[0] = sa.ParamIdBool(p[1], p[3])
+    p[0] = sa.ParamIdBool(p[1])
     
 def p_return_type_i32(p):
     'return_type : I32'
@@ -322,4 +323,5 @@ resultado = parser.parse('''
         return x;                 
     }     
 ''')
-print(resultado)
+visitor = pp.PrettyPrinter()
+resultado.accept(visitor)

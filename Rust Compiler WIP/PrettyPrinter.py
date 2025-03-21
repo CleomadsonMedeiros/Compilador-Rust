@@ -1,7 +1,8 @@
 from AbstractVisitor import AbstractVisitor
 
 class PrettyPrinter(AbstractVisitor):
-  def visitProgram(self, program): pass
+  def visitProgram(self, program):
+    program.main.accept(self)
 
   def visitMainFunction(self, mainFunction): 
     print('fn main()')
@@ -16,7 +17,7 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitDefFunction(self, defFunction):
     print('fn ', end='')
-    defFunction.id.accept(self)
+    print(defFunction.id)
     print('(', end='')
     defFunction.paramList.accept(self)
     print(') -> ', end='')
@@ -25,16 +26,16 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitDefFunctionUnit(self, defFunctionUnit):
     print('fn ', end='')
-    defFunctionUnit.id.accept(self)
+    print(defFunctionUnit.id)
     print('()', end='')
     defFunctionUnit.blockStatement.accept(self)
 
   def visitFunctionCall(self, functionCall):
-    functionCall.id.accept(self)
+    print(functionCall.id)
     print('()')
 
   def visitFunctionCallIdList(self, functionCallIdList):
-    functionCallIdList.id.accept(self)
+    print(functionCallIdList.id)
     print('(', end='')
     functionCallIdList.idList.accept(self)
     print(')')
@@ -42,25 +43,22 @@ class PrettyPrinter(AbstractVisitor):
   def visitParamListParams(self, paramListParams):
     paramListParams.param.accept(self)
     print(', ', end='') 
-    paramListParams.paramlist.accept(self)
+    paramListParams.param_list.accept(self)
     
   def visitParamListParam(self, paramListParam):
     paramListParam.param.accept(self) 
 
   def visitParamIdI32(self, paramIdI32):
-    print(paramIdI32.ID, end='')
+    print(paramIdI32.id, end='')
     print(': i32')
-    paramIdI32.I32.accept(self)
 
   def visitParamIdF64(self, paramIdF64):
-    paramIdF64.ID.accept(self)
+    print(paramIdF64.id)
     print(': f64')
-    paramIdF64.F64.accept(self)
 
   def visitParamIdBool(self, paramIdBool):
-    paramIdBool.ID.accept(self)
+    print(paramIdBool.id)
     print(': bool')
-    paramIdBool.BOOL.accept(self)
 
   def visitStatementFunctionDef(self, statementFunctionDef):
     statementFunctionDef.function_def.accept(self)
@@ -79,7 +77,7 @@ class PrettyPrinter(AbstractVisitor):
     
   def visitStatementIf(self, statementIf):
     print('if ', end='')
-    statementIf.expression.accept(self)
+    statementIf.condition.accept(self)
     statementIf.block_statement.accept(self)
 
   def visitStatementIfElse(self, statementIfElse):
@@ -99,13 +97,13 @@ class PrettyPrinter(AbstractVisitor):
     statementIfWithElse.statement_else.accept(self)
 
   def visitReturnTypeI32(self, returnTypeI32):
-    print(returnTypeI32.ID32)  
+    print(returnTypeI32.id32)  
 
   def visitReturnTypeF64(self, returnTypeF64):
-    print(returnTypeF64.F64)  
+    print(returnTypeF64.f64)  
 
   def visitReturnTypeBool(self, returnTypeBool):
-    print(returnTypeBool.BOOL)  
+    print(returnTypeBool.bool)  
 
   def visitStatementWhileStatement(self, whileStatement):
     whileStatement.while_statement.accept(self)
@@ -117,7 +115,7 @@ class PrettyPrinter(AbstractVisitor):
     forStatement.for_statement.accept(self)    
   
   def visitStatementBlockStatement(self, blockStatement):
-    blockStatement.accept(self)
+    blockStatement.block_statement.accept(self)
   
   def visitConditionNotEqual(self, conditionNotEqual):
     conditionNotEqual.expression.accept(self)
@@ -152,16 +150,16 @@ class PrettyPrinter(AbstractVisitor):
   def visitExpressionAnd(self, expressionAnd):
     expressionAnd.expression.accept(self)
     print(' && ', end='')
-    expressionAnd.term.accept(self)
+    expressionAnd.condition.accept(self)
     
   def visitExpressionOr(self, expressionOr):
     expressionOr.expression.accept(self)
     print(' || ', end='')
-    expressionOr.term.accept(self)
+    expressionOr.condition.accept(self)
     
   def visitExpressionNot(self, expressionNot):
     print('!', end='')
-    expressionNot.expression.accept(self)
+    expressionNot.condition.accept(self)
   
   def visitConditionTerm(self, conditionTerm):
     conditionTerm.term.accept(self)
@@ -172,7 +170,7 @@ class PrettyPrinter(AbstractVisitor):
   
   def visitVarDeclarationMutId(self, varDeclaration):
     print('let mut ', end='')
-    varDeclaration.id.accept(self)
+    print(varDeclaration.id)
     print(' = ', end='')
     varDeclaration.expression.accept(self)
     print(';', end='') 
@@ -186,7 +184,7 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitVarDeclarationId(self, varDeclarationId):
     print('let ', end='')
-    varDeclarationId.id.accept(self)
+    print(varDeclarationId.id)
     print(' = ', end='')
     varDeclarationId.expression.accept(self)
     print(';', end='')
@@ -199,7 +197,7 @@ class PrettyPrinter(AbstractVisitor):
     print(';', end='')
   
   def visitVarAssignment(self, varAssignment):
-    varAssignment.id.accept(self)
+    print(varAssignment.id)
     print(' = ', end='')
     varAssignment.expression.accept(self)
     print(';', end='')
@@ -207,14 +205,14 @@ class PrettyPrinter(AbstractVisitor):
   def visitWhileStatement(self, whileStatement):
     print('while ', end='')
     whileStatement.expression.accept(self)
-    whileStatement.blockStatement.accept(self)
+    whileStatement.block_statement.accept(self)
   
   def visitForStatement(self, forStatement):
     print('for ', end='')
-    forStatement.id.accept(self)
+    print(forStatement.id)
     print(' in ', end='')
     forStatement.expression.accept(self)
-    forStatement.blockStatement.accept(self)  
+    forStatement.block_statement.accept(self)  
     
   def visitReturnStatement(self, returnStatement):
     print('return ', end='')
