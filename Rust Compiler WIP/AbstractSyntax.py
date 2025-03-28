@@ -157,6 +157,12 @@ class StatementBlockStatement(Statement):
     self.block_statement = block_statement
   def accept(self, visitor):
     return visitor.visitStatementBlockStatement(self)
+  
+class BlockStatement(Statement):
+  def __init__(self, statement_list):
+    self.statement_list = statement_list
+  def accept(self, visitor):
+    return visitor.visitBlockStatement(self)
 
 class ConditionNotEqual(Condition):
   def __init__(self, expression, condition):

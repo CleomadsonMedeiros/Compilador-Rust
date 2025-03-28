@@ -245,7 +245,7 @@ class PrettyPrinter(AbstractVisitor):
   
   def visitBlockStatement(self, blockStatement):
     print('{')
-    blockStatement.statementList.accept(self)
+    blockStatement.statement_list.accept(self)
     print('}')
     
   def visitExpressionPlus(self, expressionPlus):

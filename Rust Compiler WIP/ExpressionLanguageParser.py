@@ -239,7 +239,7 @@ def p_return_statement(p):
 
 def p_block_statement(p):
     'block_statement : LBRACE statement_list RBRACE'
-    p[0] = sa.StatementBlockStatement(p[2])
+    p[0] = sa.BlockStatement(p[2])
 
 def p_expression_plus(p):
     'expression : expression PLUS term'
