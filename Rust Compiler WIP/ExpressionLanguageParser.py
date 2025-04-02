@@ -122,21 +122,21 @@ def p_statement_var_assignment(p):
     'statement : var_assignment'
     p[0] = sa.StatementVarAssignment(p[1])
 
+def p_statement_if_statement(p):
+    'statement : if_statement'
+    p[0] = sa.StatementIfStatement(p[1])
+
 def p_statement_if(p):
-    'statement : IF expression block_statement'
+    'if_statement : IF expression block_statement'
     p[0] = sa.StatementIf(p[2], p[3])
 
 def p_statement_if_else(p):
-    'statement : IF expression block_statement statement_else'
-    p[0] = sa.StatementIfElse(p[2], p[3], p[4])
+    'if_statement : IF expression block_statement ELSE block_statement'
+    p[0] = sa.StatementIfElse(p[2], p[3], p[5])
 
-def p_statement_else_block(p):
-    'statement_else : ELSE block_statement'
-    p[0] = sa.StatementElseBlock(p[2])
-
-def p_statement_else_if_with_else(p):
-    'statement_else_if : IF expression block_statement statement_else'
-    p[0] = sa.StatementElseIfWithElse(p[2], p[3], p[4])
+def p_statement_if_else_if(p):
+    'if_statement : IF expression block_statement if_statement'
+    p[0] = sa.StatementIfElseIf(p[2], p[3], p[4])
 
 def p_statement_while_statement(p):
     'statement : while_statement'

@@ -98,10 +98,13 @@ class PrettyPrinter(AbstractVisitor):
 
   def visitStatementVarAssignment(self, statementVarAssignment):
     statementVarAssignment.var_assignment.accept(self) 
+
+  def visitStatementIfStatement(self, statementIfStatement):
+    statementIfStatement.if_statement.accept(self)
     
   def visitStatementIf(self, statementIf):
     print('if ', end='')
-    statementIf.condition.accept(self)
+    statementIf.expression.accept(self)
     statementIf.block_statement.accept(self)
 
   def visitStatementIfElse(self, statementIfElse):
@@ -110,15 +113,11 @@ class PrettyPrinter(AbstractVisitor):
     statementIfElse.block_statement.accept(self)
     statementIfElse.statement_else.accept(self)
 
-  def visitStatementElseBlock(self, statementElseBlock):
-    print('else ', end='')
-    statementElseBlock.block_statement.accept(self)
-
-  def visitStatementIfWithElse(self, statementIfWithElse):
+  def visitStatementIfElseIf(self, statementIfElseIf):
     print('if ', end='')
-    statementIfWithElse.expression.accept(self)
-    statementIfWithElse.block_statement.accept(self)
-    statementIfWithElse.statement_else.accept(self)
+    statementIfElseIf.expression.accept(self)
+    statementIfElseIf.block_statement.accept(self)
+    statementIfElseIf.if_statement.accept(self)
 
   def visitReturnTypeI32(self, returnTypeI32):
     print(returnTypeI32.id32, end='')  

@@ -33,6 +33,51 @@ class IdList(metaclass=ABCMeta):
   def accept(self):
     pass
 
+class Expression(metaclass=ABCMeta):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class Condition(metaclass=ABCMeta):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class VarDeclaration(metaclass=ABCMeta):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class AbstractVarAssignment(metaclass=ABCMeta):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class Term(metaclass=ABCMeta):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class Factor(metaclass=ABCMeta):
+  @abstractmethod
+  def accept(self):
+    pass
+
+class Param(metaclass=ABCMeta):
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+    
+class ReturnType(metaclass=ABCMeta):
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+    
+class IfStatement(metaclass=ABCMeta):
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+
 class StatementListStatement(Statement):
   def __init__(self, statement):
     self.statement = statement
@@ -113,26 +158,6 @@ class IdListFunctionCall(IdList):
     self.function = function
   def accept(self, visitor):
     return visitor.visitIdListFunctionCall(self)
-
-class Expression(metaclass=ABCMeta):
-  @abstractmethod
-  def accept(self):
-    pass
-
-class Condition(metaclass=ABCMeta):
-  @abstractmethod
-  def accept(self):
-    pass
-
-class VarDeclaration(metaclass=ABCMeta):
-  @abstractmethod
-  def accept(self):
-    pass
-
-class AbstractVarAssignment(metaclass=ABCMeta):
-  @abstractmethod
-  def accept(self):
-    pass
 
 class StatementWhileStatement(Statement):
   def __init__(self, while_statement):
@@ -273,32 +298,32 @@ class VarAssignment(AbstractVarAssignment):
   def accept(self, visitor):
     return visitor.visitVarAssignment(self)
   
-class StatementIf(Statement):
-    def __init__(self, condition, block_statement):
-        self.condition = condition
+class StatementIfStatement(Statement):
+    def __init__(self, if_statement):
+        self.if_statement = if_statement
+    def accept(self, visitor):
+        return visitor.visitStatementIfStatement(self)
+  
+class StatementIf(IfStatement):
+    def __init__(self, expression, block_statement):
+        self.expression = expression
         self.block_statement = block_statement
     def accept(self, visitor):
         return visitor.visitStatementIf(self)
     
-class StatementIfElse(Statement):
-    def __init__(self, expression, block_statement, statement_else):
-        self.condition = expression
-        self.if_block = block_statement
-        self.else_block = statement_else
+class StatementIfElse(IfStatement):
+    def __init__(self, expression, block_statement_esq, block_statement_dir):
+        self.expression = expression
+        self.block_statement_esq = block_statement_esq
+        self.block_statement_dir = block_statement_dir
     def accept(self, visitor):
         return visitor.visitStatementIfElse(self)
     
-class StatementElseBlock(Statement):
-    def __init__(self, block_statement):
-        self.block = block_statement
-    def accept(self, visitor):
-        return visitor.visitStatementElseBlock(self)
-    
-class StatementElseIfWithElse(Statement):
-    def __init__(self, expression, block_statement, statement_else):
-        self.condition = expression
-        self.block = block_statement
-        self.else_block = statement_else
+class StatementIfElseIf(IfStatement):
+    def __init__(self, expression, block_statement, if_statement):
+        self.expression = expression
+        self.block_statement = block_statement
+        self.if_statement = if_statement
     def accept(self, visitor):
         return visitor.visitStatementElseIfWithElse(self)
     
@@ -349,11 +374,6 @@ class ExpressionRange(Expression):
     self.term = term
   def accept(self, visitor):
     return visitor.visitExpressionRange(self)
-    
-class Term(metaclass=ABCMeta):
-  @abstractmethod
-  def accept(self):
-    pass
 
 class TermModulo(Term):
   def __init__(self, term, factor):
@@ -381,11 +401,6 @@ class TermFactor(Term):
     self.factor = factor
   def accept(self, visitor):
     return visitor.visitTermFactor(self)
-
-class Factor(metaclass=ABCMeta):
-  @abstractmethod
-  def accept(self):
-    pass
 
 class FactorNumber(Factor):
   def __init__(self, number):
@@ -422,11 +437,6 @@ class FactorID(Factor):
     self.id = id
   def accept(self, visitor):
     return visitor.visitFactorID(self)
-  
-class Param(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, visitor):
-        pass
    
 class ParamIdI32(Param):
     def __init__(self, id):
@@ -445,11 +455,6 @@ class ParamIdBool(Param):
       self.id = id
    def accept(self, visitor):
          return visitor.visitParamIdBool(self)
-   
-class ReturnType(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, visitor):
-        pass
     
 class ReturnTypeI32(ReturnType):
    def __init__(self, id32):
