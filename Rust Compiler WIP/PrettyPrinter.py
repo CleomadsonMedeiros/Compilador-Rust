@@ -39,6 +39,7 @@ class PrettyPrinter(AbstractVisitor):
     print('(', end='')
     functionCallIdList.idList.accept(self)
     print(')', end='')
+    print(';')
 
   def visitIdListIdComma(self, idListIdComma):
     print(idListIdComma.id, end='')
