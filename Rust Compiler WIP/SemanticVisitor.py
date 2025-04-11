@@ -179,21 +179,17 @@ class SemanticVisitor(AbstractVisitor):
           
     def visitConditionEquals(self, conditionEquals):
       conditionEquals.expression.accept(self)
-      print(' == ', end='')
       conditionEquals.condition.accept(self)
       
     def visitExpressionAnd(self, expressionAnd):
       expressionAnd.expression.accept(self)
-      print(' && ', end='')
       expressionAnd.condition.accept(self)
       
     def visitExpressionOr(self, expressionOr):
       expressionOr.expression.accept(self)
-      print(' || ', end='')
       expressionOr.condition.accept(self)
       
     def visitExpressionNot(self, expressionNot):
-      print('!', end='')
       expressionNot.condition.accept(self)
     
     def visitConditionTerm(self, conditionTerm):
@@ -201,72 +197,48 @@ class SemanticVisitor(AbstractVisitor):
     
     def visitExpressionStatement(self, expressionStatement):
       expressionStatement.expression.accept(self)
-      print(';')   
     
     def visitVarDeclarationMutId(self, varDeclaration):
-      print('let mut ', end='')
-      print(varDeclaration.id, end='')
-      print(' = ', end='')
+      st.addVar(varDeclaration.id, multable=True)
       varDeclaration.expression.accept(self)
-      print(';') 
     
     def visitVarDeclarationMutParam(self, varDeclarationMutParam):
-      print('let mut ', end='')
-      varDeclarationMutParam.param.accept(self)
-      print(' = ', end='')
+      st.addVar(varDeclarationMutParam.param.accept(self), multable=True)
       varDeclarationMutParam.expression.accept(self)
-      print(';')
 
     def visitVarDeclarationId(self, varDeclarationId):
-      print('let ', end='')
-      print(varDeclarationId.id, end="")
-      print(' = ', end='')
+      st.addVar(varDeclarationId.id)
       varDeclarationId.expression.accept(self)
-      print(';')
 
     def visitVarDeclarationParam(self, varDeclarationParam):
-      print('let ', end='')
-      varDeclarationParam.param.accept(self)
-      print(' = ', end='')
+      st.addVar(varDeclarationParam.param.accept(self))
       varDeclarationParam.expression.accept(self)
-      print(';')
     
     def visitVarAssignment(self, varAssignment):
-      print(varAssignment.id, end="")
-      print(' = ', end='')
+      st.getBindable(varAssignment.id)
       varAssignment.expression.accept(self)
-      print(';')
     
     def visitWhileStatement(self, whileStatement):
-      print('while ', end='')
       whileStatement.expression.accept(self)
       whileStatement.block_statement.accept(self)
     
     def visitForStatement(self, forStatement):
-      print('for ', end='')
-      print(forStatement.id, end='')
-      print(' in ', end='')
+      st.addVar(forStatement.id, multable=True)
       forStatement.expression.accept(self)
       forStatement.block_statement.accept(self)  
       
     def visitReturnStatement(self, returnStatement):
-      print('return ', end='')
       returnStatement.expression.accept(self)
-      print(';')   
     
     def visitBlockStatement(self, blockStatement):
-      print('{')
       blockStatement.statementList.accept(self)
-      print('}')
       
     def visitExpressionPlus(self, expressionPlus):
       expressionPlus.expression.accept(self)
-      print(' + ', end='')
       expressionPlus.term.accept(self)
           
     def visitExpressionMinus(self, expressionMinus):
       expressionMinus.expression.accept(self)
-      print(' - ', end='')
       expressionMinus.term.accept(self)
     
     def visitExpressionTerm(self, expressionTerm):
@@ -274,42 +246,36 @@ class SemanticVisitor(AbstractVisitor):
 
     def visitExpressionRange(self, expressionRange): 
       expressionRange.expression.accept(self)
-      print(' .. ', end='')
       expressionRange.term.accept(self)
 
     def visitTermModulo(self, termModulo):
       termModulo.term.accept(self)
-      print(' % ', end='')
       termModulo.factor.accept(self)
     
     def visitTermTimes(self, termTimes):
       termTimes.term.accept(self)
-      print(' * ', end='')
       termTimes.factor.accept(self)      
     
     def visitTermDivide(self, termDivide):
       termDivide.term.accept(self)
-      print(' / ', end='')
       termDivide.factor.accept(self)
 
     def visitTermFactor(self, termFactor):
       termFactor.factor.accept(self)   
       
     def visitFactorNumber(self, factorNumber):
-      print(factorNumber.number, end="")
+      return factorNumber.number
       
     def visitFactorParen(self, factorParen):
-      print('(', end='')
       factorParen.expression.accept(self)
-      print(')')
     
     def visitFactorBooleanTrue(self, factorBooleanTrue):
-      print(factorBooleanTrue.true, end="")
+      return st.BOOL
 
     def visitFactorBooleanFalse(self, factorBooleanFalse):
-      print(factorBooleanFalse.false, end="")
+      return st.BOOL
       
     def visitFactorID(self, factorID):
-      print(factorID.id, end="")
+      return factorID.id
     
     def visitError(self, error): pass

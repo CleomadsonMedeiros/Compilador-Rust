@@ -32,7 +32,7 @@ def endScope():
     symbolTable = symbolTable[0:-1]
     printTable()
 
-def addVar(name, type="dynamic", multable=False, offset = None):
+def addVar(name, type="dynamic", multable=False, offset=None):
     global symbolTable
     symbolTable[-1][name] = {BINDABLE: VARIABLE, TYPE: type, MULTABLE: multable, OFFSET: offset}
     printTable()
@@ -84,7 +84,6 @@ def main():
 
     print('\n# Removendo escopo some')
     endScope()
-    
 
 if __name__ == "__main__":
     main()
