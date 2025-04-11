@@ -41,15 +41,25 @@ class SemanticVisitor(AbstractVisitor):
       defFunctionUnit.blockStatement.accept(self)
 
     def visitFunctionCall(self, functionCall):
-      print(functionCall.id, end='')
-      print('()')
-
+      bindable = st.getBindable(functionCall.id)
+      if (bindable != None and bindable[st.BINDABLE] == st.FUNCTION):
+        return bindable[st.TYPE]
+      functionCall.accept(self.printer)
+      self.n_errors += 1
+      print("\n\t[Erro] Chamada de função inválida.")
+      return None
+      
     def visitFunctionCallIdList(self, functionCallIdList):
-      print(functionCallIdList.id, end='')
-      print('(', end='')
-      functionCallIdList.idList.accept(self)
-      print(')', end='')
-      print(';')
+      bindable = st.getBindable(functionCallIdList.id)
+      if (bindable != None and bindable[st.BINDABLE] == st.FUNCTION):
+        typeParams = functionCallIdList.params.accept(self)
+        if (list(bindable[st.PARAMS][1::2]) == typeParams):
+          return bindable[st.TYPE]
+        
+        functionCallIdList.accept(self.printer)
+        self.n_errors += 1
+        print("\n\t[Erro] Chamada de função inválida.")
+        return None
 
     def visitIdListIdComma(self, idListIdComma):
       print(idListIdComma.id, end='')
