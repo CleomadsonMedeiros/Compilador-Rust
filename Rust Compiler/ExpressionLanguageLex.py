@@ -1,118 +1,102 @@
 import ply.lex as lex
 
-# Reservadas
+# Palavras reservadas
 reservadas = {
     'while': 'WHILE',
     'true': 'TRUE',
     'false': 'FALSE',
     'return': 'RETURN',
-    'fn': 'FN', # Função
-    'let': 'LET', # Variável Imutável
-    'mut': 'MUT', # Variável Mutável
+    'fn': 'FN',
+    'let': 'LET',
+    'mut': 'MUT',
     'if': 'IF',
     'else': 'ELSE',
     'for': 'FOR',
     'in': 'IN',
+    'range': 'RANGE',
+    'main': 'MAIN',
     'i32': 'I32',
-    'f64': 'F64'
+    'f64': 'F64',
+    'bool': 'BOOL'
 }
 
 # Tokens
 tokens = (
-    "PLUS", 
-    "MINUS", 
-    "TIMES", 
-    "DIVIDE", 
-    "EQUAL",
-    "LPAREN", 
-    "RPAREN",
-    "LBRACKET",
-    "RBRACKET",
-    "LBRACE",
-    "RBRACE",
-    "COMMA", 
-    "NUMBER", 
-    "ID",
-    "SEMICOLON",
-    "COLON",
-    "DOT",
-    "ARROW",
-    "AND",
-    "OR",
-    "NOT",
-    "LT", #Less Than
-    "GT", #Greater Than
-    "LE", #Less or Equal
-    "GE", #Greater or Equal
-    "EQ", #Equal
-    "NE", #Not Equal
+    'NUMBER',
+    'PLUS',
+    'MINUS',
+    'TIMES',
+    'DIVIDE',
+    'LPAREN',
+    'RPAREN',
+    'GREATER',
+    'LESS',
+    'EQUALS',
+    'LBRACE',
+    'RBRACE',
+    'ID',
+    'ASSIGN',
+    'NOTEQUAL',
+    'GREATEREQUAL',
+    'LESSEQUAL',
+    'COMMA',
+    'ARROW',
+    'COLON',
+    'SEMICOLON',
+    'MODULO',
+    'NOT',
+    'OR',
+    'AND'
 ) + tuple(reservadas.values())
 
-t_PLUS    = r'\+'
-t_MINUS   = r'-'
+t_PLUS = r'\+'
+t_MINUS = r'-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
-t_EQUAL = r'='
-t_LPAREN  = r'\('
-t_RPAREN  = r'\)'
-t_LBRACKET = r'\['
-t_RBRACKET = r'\]'
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
+t_GREATER = r'>'
+t_LESS = r'<'
+t_EQUALS = r'=='
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
+t_ASSIGN = r'='
 t_COMMA = r','
-t_SEMICOLON = r';'
-t_COLON = r':'
-t_DOT = r'\.'
 t_ARROW = r'->'
+t_COLON = r':'
+t_SEMICOLON = r';'
+t_RANGE = r'\.\.'
+t_NOTEQUAL = r'!='
+t_GREATEREQUAL = r'>='
+t_LESSEQUAL = r'<='
+t_MODULO = r'%'
 t_AND = r'&&'
 t_OR = r'\|\|'
 t_NOT = r'!'
-t_LT = r'<'
-t_GT = r'>'
-t_LE = r'<='
-t_GE = r'>='
-t_EQ = r'=='
-t_NE = r'!='
 
-def t_NUMBER_FLOAT(t):
-    r'\d+\.\d+'
-    t.value = float(t.value)
-    return t
+
 
 def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
-    return t
+    r'\d+(\.\d+)?'
+    if '.' in t.value:
+        t.value = float(t.value)
+    else:
+        t.value = int(t.value)
+    return t    
 
-def t_STRING(t):
-    r'\"([^\\\n]|(\\.))*?\"'
-    return t
-
-# Identificador, caso seja uma palavra reservada, retorna a palavra reservada
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reservadas.get(t.value, 'ID')
     return t
 
-# Ignorar espaços em branco
 t_ignore = ' \t'
 
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-# Comentários com // ou /* */
-def t_COMMENT(t):
-    r'//.*|/\*(.|\n)*?\*/'
-    pass # Faz nada
-
 def t_error(t):
-    print("Caractere ilegal '%s'" % t.value[0])
+    print(f"Caractere ilegal '{t.value[0]}'")
     t.lexer.skip(1)
-
+    
 lexer = lex.lex()
-lexer.input("if else")
-
-print('{:10s}{:10s}{:10s}{:10s}'.format("Token", "Lexema", "Linha", "Coluna"))
-for tok in lexer:
-  print('{:10s}{:10s}{:10s}{:10s}'.format(tok.type, tok.value, str(tok.lineno), str(tok.lexpos)))

@@ -1,10 +1,12 @@
-from AbstractVisitor import *
+from PrettyPrinter import *
+from ExpressionLanguageLex import *
+from ExpressionLanguageParser import *
 import SymbolTable as st
 
-class SemanticVisitor(AbstractVisitor):
+class SemanticVisitor(PrettyPrinter):
 
     def __init__(self):
-        self.printer = AbstractVisitor()
+        self.printer = PrettyPrinter()
         self.n_errors = 0
         st.beginScope('main')
 
@@ -24,15 +26,23 @@ class SemanticVisitor(AbstractVisitor):
     def visitDefFunction(self, defFunction):
       params = {}
 
-      if(defFunction.paramList != None):
-        params = defFunction.paramList.accept(self)
-        st.addFunction(defFunction.id, params, defFunction.returnType.accept(self))
+      if defFunction.paramList != None:
+          params = defFunction.paramList.accept(self)
+          if not isinstance(params, list):
+              print(f"\n\t[Erro] Lista de parâmetros inválida na função '{defFunction.id}'.")
+              self.n_errors += 1
+              params = []
+          st.addFunction(defFunction.id, params, defFunction.returnType.accept(self))
       else:
-        st.addFunction(defFunction.id, params, defFunction.returnType.accept(self))
+          st.addFunction(defFunction.id, params, defFunction.returnType.accept(self))
 
       st.beginScope(defFunction.id)
-      for k in range(0, len(params), 2):
-        st.addVar(params[k], params[k+1])
+      for k in range(0, len(params)):
+          try:
+              st.addVar(params[k][0], params[k][1])
+          except Exception as e:
+              print(f"\n\t[Erro] Parâmetro inválido: {params[k]}. Detalhes: {e}")
+              self.n_errors += 1
       
       defFunction.blockStatement.accept(self)
 
@@ -44,32 +54,65 @@ class SemanticVisitor(AbstractVisitor):
       bindable = st.getBindable(functionCall.id)
       if (bindable != None and bindable[st.BINDABLE] == st.FUNCTION):
         return bindable[st.TYPE]
+      print("Código com erro:", end=" ")
       functionCall.accept(self.printer)
       self.n_errors += 1
-      print("\n\t[Erro] Chamada de função inválida.")
+      print("\n[Erro] Chamada de função inválida.")
       return None
       
     def visitFunctionCallIdList(self, functionCallIdList):
       bindable = st.getBindable(functionCallIdList.id)
-      if (bindable != None and bindable[st.BINDABLE] == st.FUNCTION):
-        typeParams = functionCallIdList.params.accept(self)
-        if (list(bindable[st.PARAMS][1::2]) == typeParams):
-          return bindable[st.TYPE]
-        
-        functionCallIdList.accept(self.printer)
-        self.n_errors += 1
-        print("\n\t[Erro] Chamada de função inválida.")
-        return None
+      if bindable is not None and bindable[st.BINDABLE] == st.FUNCTION:
+          param_values = functionCallIdList.idList.accept(self)
+          typeParams = []
+
+          for val in param_values:
+              if isinstance(val, int):
+                  typeParams.append(st.I32)
+              elif isinstance(val, float):
+                  typeParams.append(st.F64)
+              elif isinstance(val, bool):
+                  typeParams.append(st.BOOL)
+              elif isinstance(val, str):
+                  # Verifica o tipo no escopo para variáveis
+                  bind = st.getBindable(val)
+                  if bind and st.TYPE in bind:
+                      typeParams.append(bind[st.TYPE])
+                  else:
+                      print(f"\n[Erro] Identificador '{val}' não declarado ou sem tipo.")
+                      self.n_errors += 1
+                      typeParams.append(None)
+              elif val is None:
+                  typeParams.append(None)
+              else:
+                  print(f"\n[Erro] Tipo não reconhecido para valor: {val}")
+                  self.n_errors += 1
+                  typeParams.append(None)
+          expected = [param[1] for param in bindable[st.PARAMS]]
+          if typeParams == expected:
+              return bindable[st.TYPE]
+          else:
+              print("Código com erro:", end=" ")
+              functionCallIdList.accept(self.printer)
+              print(f"\n[Erro] Tipos de parâmetros incompatíveis na chamada da função '{functionCallIdList.id}'. Esperado: {expected}, recebido: {typeParams}")
+              self.n_errors += 1
+              return None
+
+      print("Código com erro:", end=" ")
+      functionCallIdList.accept(self.printer)
+      print(f"\n[Erro] Função '{functionCallIdList.id}' não declarada.")
+      self.n_errors += 1
+      return None
 
     def visitIdListIdComma(self, idListIdComma):
-      return [idListIdComma.id] + idListIdComma.idlist.accept(self)
+      return [idListIdComma.id] + idListIdComma.idList.accept(self)
     
     def visitIdListNumComma(self, idListNumComma):
-      return [idListNumComma.num] + idListNumComma.idlist.accept(self)
+      return [idListNumComma.num] + idListNumComma.idList.accept(self)
 
     def visitIdListFunctionCallComma(self, idListFunctionCallComma):
-      tipoFuncao = idListFunctionCallComma.function_call.accept(self)
-      return [tipoFuncao] + idListFunctionCallComma.idlist.accept(self)
+      tipoFuncao = idListFunctionCallComma.function.accept(self)
+      return [tipoFuncao] + idListFunctionCallComma.idList.accept(self)
 
     def visitIdListId(self, idListId):
       return [idListId.id]
@@ -78,11 +121,11 @@ class SemanticVisitor(AbstractVisitor):
       return [idListNum.num]
 
     def visitIdListFunctionCall(self, idListFunctionCall):
-      tipoFuncao = idListFunctionCall.function_call.accept(self)
+      tipoFuncao = idListFunctionCall.function.accept(self)
       return [tipoFuncao]
 
     def visitParamListParams(self, paramListParams):
-      return [paramListParams.param.accept(self)] + paramListParams.paramList.accept(self)
+      return [paramListParams.param.accept(self)] + paramListParams.param_list.accept(self)
       
     def visitParamListParam(self, paramListParam):
       return [paramListParam.param.accept(self)]
@@ -110,21 +153,26 @@ class SemanticVisitor(AbstractVisitor):
 
     def visitStatementVarAssignment(self, statementVarAssignment):
       statementVarAssignment.var_assignment.accept(self) 
+
+    def visitStatementIfStatement(self, statementIfStatement):
+      statementIfStatement.if_statement.accept(self)
       
     def visitStatementIf(self, statementIf):
       st.beginScope('if')
-      statementIf.condition.accept(self)
+      statementIf.expression.accept(self)
       statementIf.block_statement.accept(self)
 
     def visitStatementIfElse(self, statementIfElse):
       st.beginScope('if')
       statementIfElse.expression.accept(self)
-      statementIfElse.block_statement.accept(self)
-      statementIfElse.statement_else.accept(self)
+      statementIfElse.block_statement_esq.accept(self)
+      statementIfElse.block_statement_dir.accept(self)
 
-    def visitStatementElseBlock(self, statementElseBlock):
-      st.beginScope('else')
-      statementElseBlock.block_statement.accept(self)
+    def visitStatementIfElseIf(self, statementIfElseIf):
+      st.beginScope('if')
+      statementIfElseIf.expression.accept(self)
+      statementIfElseIf.block_statement.accept(self)
+      statementIfElseIf.if_statement.accept(self)
 
     def visitStatementIfWithElse(self, statementIfWithElse):
       st.beginScope('if')
@@ -176,6 +224,9 @@ class SemanticVisitor(AbstractVisitor):
     def visitConditionEquals(self, conditionEquals):
       conditionEquals.expression.accept(self)
       conditionEquals.condition.accept(self)
+
+    def visitExpressionFunctionCall(self, functionCall):
+      functionCall.function_call.accept(self)
       
     def visitExpressionAnd(self, expressionAnd):
       expressionAnd.expression.accept(self)
@@ -199,15 +250,20 @@ class SemanticVisitor(AbstractVisitor):
       varDeclaration.expression.accept(self)
     
     def visitVarDeclarationMutParam(self, varDeclarationMutParam):
-      st.addVar(varDeclarationMutParam.param.accept(self), multable=True)
-      varDeclarationMutParam.expression.accept(self)
+       try:
+        nome, tipo = varDeclarationMutParam.param.accept(self)
+        st.addVar(nome, multable=True, type=tipo)
+        varDeclarationMutParam.expression.accept(self)
+       except Exception as e:
+        print(f"\n\t[Erro] Declaração de variável mutável inválida. Detalhes: {e}")
+        self.n_errors += 1
 
     def visitVarDeclarationId(self, varDeclarationId):
       st.addVar(varDeclarationId.id)
       varDeclarationId.expression.accept(self)
 
     def visitVarDeclarationParam(self, varDeclarationParam):
-      st.addVar(varDeclarationParam.param.accept(self))
+      st.addVar(varDeclarationParam.param.accept(self)[0], type=varDeclarationParam.param.accept(self)[1])
       varDeclarationParam.expression.accept(self)
     
     def visitVarAssignment(self, varAssignment):
@@ -227,10 +283,14 @@ class SemanticVisitor(AbstractVisitor):
       forStatement.block_statement.accept(self)  
       
     def visitReturnStatement(self, returnStatement):
-      returnStatement.expression.accept(self)
-    
+      if returnStatement.expression is None:
+        print("\n\t[Erro] Retorno de função sem valor.")
+        self.n_errors += 1
+      else:
+          returnStatement.expression.accept(self)
+      
     def visitBlockStatement(self, blockStatement):
-      blockStatement.statementList.accept(self)
+      blockStatement.statement_list.accept(self)
       
     def visitExpressionPlus(self, expressionPlus):
       expressionPlus.expression.accept(self)
@@ -275,6 +335,37 @@ class SemanticVisitor(AbstractVisitor):
       return st.BOOL
       
     def visitFactorID(self, factorID):
-      return factorID.id
+      id_info = st.getBindable(factorID.id)
+      if id_info is None:
+          print(f"\n\t[Erro] Identificador '{factorID.id}' não declarado.")
+          self.n_errors += 1
+          return None
+      return id_info[st.TYPE] if st.TYPE in id_info else None
     
     def visitError(self, error): pass
+
+files = [
+  "input_correto.rs",
+  "input_com_erro_1.rs",
+  "input_com_erro_2.rs"
+]
+
+for file_path in files:
+  print(f"\nAnalisando arquivo: {file_path}")
+  with open(file_path, "r") as f:
+    lexer = lex.lex()
+    lexer.input(f.read())
+    parser = yacc.yacc()
+    result = parser.parse(debug=False)
+
+    svisitor = SemanticVisitor()
+    if result:
+      result.accept(svisitor)
+    else:
+      print("[Erro] Árvore de sintaxe abstrata inválida.")
+
+
+    if svisitor.n_errors > 0:
+      print(f"\nNúmero total de erros no arquivo: {svisitor.n_errors}")
+    else:
+      print(f"\nAnálise semântica concluída com sucesso no arquivo. Nenhum erro encontrado.")

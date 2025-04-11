@@ -230,6 +230,12 @@ class ConditionEquals(Condition):
     self.condition = condition
   def accept(self, visitor):
     return visitor.visitConditionEquals(self)
+  
+class ExpressionFunctionCall(Expression):
+  def __init__(self, function_call):
+    self.function_call = function_call
+  def accept(self, visitor):
+    return visitor.visitExpressionFunctionCall(self)
 
 class ExpressionAnd(Expression):
   def __init__(self, expression, condition):

@@ -181,6 +181,10 @@ def p_condition_equals(p):
     p[0] = sa.ConditionEquals(p[1], p[3])
 #endregion
 
+def p_expression_function_call(p):
+    'expression : function_call'
+    p[0] = sa.ExpressionFunctionCall(p[1])
+
 #region Operadores Logicos
 
 def p_expression_and(p):
@@ -301,31 +305,29 @@ parser = yacc.yacc()
 
 # Teste do parser
 resultado = parser.parse('''                 
-    fn main(){
-        let mut x: i32 = 5;
-        x + 1;
-        let y = 4;
-        1 + 1;
-        3 - 2;
-        x = y + 4;
-        if !x {
-          x = x + 1;
+    fn main() {
+        let mut x: i32 = 10;
+        let y = 20;
+        let resultado: f64 = 0.0;
+
+        if x > y {
+            x = x + 1;
+        } else {
+            x = x - 1;
         }
-        let a = 3 >= 5;
-        3 != 3;
-        while x > 2 && x < 0 {
-        1 + 1;
-        2 / 2;
+
+        while x < 20 {
+            x = x + 2;
         }
+
+        for i in 0..10 {
+            let temp = i * 2;
+        }
+
         fn soma(a: i32, b: f64, c: i32) -> f64 {
-          return a + b;
+            return a + b;
         }
-        fn show() { println(soma(3, soma(3,3)));}
-        for x in 1..10 / 5 {
-        0 + 1;
-        }
-        return x;                 
-    }     
+}
 ''')
 visitor = pp.PrettyPrinter()
 resultado.accept(visitor)

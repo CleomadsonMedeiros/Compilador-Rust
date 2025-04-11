@@ -37,7 +37,7 @@ def addVar(name, type="dynamic", multable=False, offset=None):
     symbolTable[-1][name] = {BINDABLE: VARIABLE, TYPE: type, MULTABLE: multable, OFFSET: offset}
     printTable()
 
-def addFunction(name, params, type="dynamic"):
+def addFunction(name, params=None, type="dynamic"):
     global symbolTable
     symbolTable[-1][name] = {BINDABLE: FUNCTION, PARAMS: params, TYPE: type}
     printTable()

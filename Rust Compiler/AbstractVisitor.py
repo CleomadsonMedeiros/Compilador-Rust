@@ -121,6 +121,9 @@ class AbstractVisitor(metaclass=ABCMeta):
     
     @abstractmethod     
     def visitConditionEquals(self, equals): pass
+
+    @abstractmethod
+    def visitExpressionFunctionCall(self, functionCall): pass
     
     @abstractmethod 
     def visitExpressionAnd(self, expressionAnd): pass 
