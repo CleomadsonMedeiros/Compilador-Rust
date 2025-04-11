@@ -121,34 +121,34 @@ class SemanticVisitor(AbstractVisitor):
       statementVarAssignment.var_assignment.accept(self) 
       
     def visitStatementIf(self, statementIf):
-      print('if ', end='')
+      st.beginScope('if')
       statementIf.condition.accept(self)
       statementIf.block_statement.accept(self)
 
     def visitStatementIfElse(self, statementIfElse):
-      print('if ', end='')
+      st.beginScope('if')
       statementIfElse.expression.accept(self)
       statementIfElse.block_statement.accept(self)
       statementIfElse.statement_else.accept(self)
 
     def visitStatementElseBlock(self, statementElseBlock):
-      print('else ', end='')
+      st.beginScope('else')
       statementElseBlock.block_statement.accept(self)
 
     def visitStatementIfWithElse(self, statementIfWithElse):
-      print('if ', end='')
+      st.beginScope('if')
       statementIfWithElse.expression.accept(self)
       statementIfWithElse.block_statement.accept(self)
       statementIfWithElse.statement_else.accept(self)
 
     def visitReturnTypeI32(self, returnTypeI32):
-      print(returnTypeI32.id32, end='')  
+      return st.I32
 
     def visitReturnTypeF64(self, returnTypeF64):
-      print(returnTypeF64.f64, end='')  
+      return st.F64
 
     def visitReturnTypeBool(self, returnTypeBool):
-      print(returnTypeBool.bool, end='')  
+      return st.BOOL
 
     def visitStatementWhileStatement(self, whileStatement):
       whileStatement.while_statement.accept(self)
@@ -164,27 +164,22 @@ class SemanticVisitor(AbstractVisitor):
     
     def visitConditionNotEqual(self, conditionNotEqual):
       conditionNotEqual.expression.accept(self)
-      print(' != ', end='')
       conditionNotEqual.condition.accept(self)
       
     def visitConditionGreaterEqual(self, conditionGreaterEqual):
       conditionGreaterEqual.expression.accept(self)
-      print(' >= ', end='')
       conditionGreaterEqual.condition.accept(self)      
     
     def visitConditionLessEqual(self, conditionLessEqual):
       conditionLessEqual.expression.accept(self)
-      print(' <= ', end='')
       conditionLessEqual.condition.accept(self)
     
     def visitConditionGreater(self, conditionGreater):
       conditionGreater.expression.accept(self)
-      print(' > ', end='')
       conditionGreater.condition.accept(self)
       
     def visitConditionLess(self, conditionLess):
       conditionLess.expression.accept(self)
-      print(' < ', end='')
       conditionLess.condition.accept(self)
           
     def visitConditionEquals(self, conditionEquals):
@@ -225,8 +220,11 @@ class SemanticVisitor(AbstractVisitor):
       varDeclarationParam.expression.accept(self)
     
     def visitVarAssignment(self, varAssignment):
-      st.getBindable(varAssignment.id)
-      varAssignment.expression.accept(self)
+      id = st.getBindable(varAssignment.id)
+      if(id != None):
+        varAssignment.expression.accept(self)
+      else:
+        print("Variável não declarada")
     
     def visitWhileStatement(self, whileStatement):
       whileStatement.expression.accept(self)
