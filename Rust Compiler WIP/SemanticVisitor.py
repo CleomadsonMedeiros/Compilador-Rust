@@ -88,10 +88,10 @@ class SemanticVisitor(AbstractVisitor):
       return [paramListParam.param.accept(self)]
 
     def visitParamIdI32(self, paramIdI32):
-      return [paramIdI32.id, st.INT]
+      return [paramIdI32.id, st.I32]
 
     def visitParamIdF64(self, paramIdF64):
-      return [paramIdF64.id, st.FLOAT]
+      return [paramIdF64.id, st.F64]
 
     def visitParamIdBool(self, paramIdBool):
       return [paramIdBool.id, st.BOOL]
