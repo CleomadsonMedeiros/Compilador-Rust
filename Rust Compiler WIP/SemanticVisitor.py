@@ -62,48 +62,39 @@ class SemanticVisitor(AbstractVisitor):
         return None
 
     def visitIdListIdComma(self, idListIdComma):
-      print(idListIdComma.id, end='')
-      print(', ', end='')
-      idListIdComma.idList.accept(self)
-
+      return [idListIdComma.id] + idListIdComma.idlist.accept(self)
+    
     def visitIdListNumComma(self, idListNumComma):
-      print(idListNumComma.num, end='')
-      print(', ', end='')
-      idListNumComma.idList.accept(self)
+      return [idListNumComma.num] + idListNumComma.idlist.accept(self)
 
     def visitIdListFunctionCallComma(self, idListFunctionCallComma):
-      idListFunctionCallComma.function.accept(self)
-      print(', ', end='')
-      idListFunctionCallComma.idList.accept(self)
+      tipoFuncao = idListFunctionCallComma.function_call.accept(self)
+      return [tipoFuncao] + idListFunctionCallComma.idlist.accept(self)
 
     def visitIdListId(self, idListId):
-      print(idListId.id, end='')
+      return [idListId.id]
 
     def visitIdListNum(self, idListNum):
-      print(idListNum.num,end='')
+      return [idListNum.num]
 
     def visitIdListFunctionCall(self, idListFunctionCall):
-      idListFunctionCall.function.accept(self)
+      tipoFuncao = idListFunctionCall.function_call.accept(self)
+      return [tipoFuncao]
 
     def visitParamListParams(self, paramListParams):
-      paramListParams.param.accept(self)
-      print(', ', end='') 
-      paramListParams.param_list.accept(self)
+      return [paramListParams.param.accept(self)] + paramListParams.paramList.accept(self)
       
     def visitParamListParam(self, paramListParam):
-      paramListParam.param.accept(self) 
+      return [paramListParam.param.accept(self)]
 
     def visitParamIdI32(self, paramIdI32):
-      print(paramIdI32.id, end='')
-      print(': i32', end="")
+      return [paramIdI32.id, st.INT]
 
     def visitParamIdF64(self, paramIdF64):
-      print(paramIdF64.id, end='')
-      print(': f64', end="")
+      return [paramIdF64.id, st.FLOAT]
 
     def visitParamIdBool(self, paramIdBool):
-      print(paramIdBool.id, end='')
-      print(': bool', end="")
+      return [paramIdBool.id, st.BOOL]
 
     def visitStatementFunctionDef(self, statementFunctionDef):
       statementFunctionDef.function_def.accept(self)
